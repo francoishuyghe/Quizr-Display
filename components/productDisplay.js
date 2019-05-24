@@ -6,22 +6,7 @@ class ProductDisplay extends React.Component {
   
       return <div className="productBlock">
               <div className="productImage">
-                <img
-                  src={
-                    product.images && 
-                    product.images.edges && 
-                    product.images.edges[0]
-                        ? product.images.edges[0].node.originalSrc
-                        : ''
-                    }
-                  alt={
-                    product.images && 
-                    product.images.edges && 
-                    product.images.edges[0]
-                      ? product.images.edges[0].node.altText
-                      : ''
-                  }
-                />
+                <img src={product.image} />
               </div>
               <div className="productText">
                 <h3>{product.title}</h3>
