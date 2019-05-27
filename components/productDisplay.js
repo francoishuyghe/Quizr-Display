@@ -1,7 +1,8 @@
 class ProductDisplay extends React.Component {
   
     render() {
-      const {product} = this.props
+      const { product } = this.props
+      console.log(product)
   
       return <div className="productBlock">
               <div className="productImage">
