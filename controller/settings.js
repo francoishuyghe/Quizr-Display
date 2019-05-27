@@ -4,9 +4,10 @@ const {
 } = require('../model/settings')
 const sgMail = require('@sendgrid/mail');
 
-const emailTop = getFile("../static/resultEmailTop.html")
-const emailMiddle = getFile("../static/resultEmailMiddle.html")
-const emailBottom = getFile("../static/resultEmailBottom.html")
+var fs = require("fs");
+const emailTop = fs.readFileSync("../static/resultEmailTop.html")
+const emailMiddle = fs.readFileSync("../static/resultEmailMiddle.html")
+const emailBottom = fs.readFileSync("../static/resultEmailBottom.html")
 
 class SettingsControllers {
 
