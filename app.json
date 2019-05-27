@@ -1,0 +1,6 @@
+{
+    "name": "Quizr Display",
+    "description": "The display app for Shopify's Quizr",
+    "repository": "https://github.com/13MS/Quizr-Display",
+    "keywords": ["node", "express", "shopify"]
+}
