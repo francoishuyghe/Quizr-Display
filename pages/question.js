@@ -10,7 +10,7 @@ class Question extends React.Component{
         super( props );
 
         this.state = {
-            answers: this.props.answers
+            isLeaving: false
         }
 
         this.clickedAnswer = this.clickedAnswer.bind( this );
@@ -22,9 +22,11 @@ class Question extends React.Component{
 
     render() {
 
-        const {settings, query} = this.props
+        const { settings, query, answers } = this.props
+        const { isLeaving } = this.state
+
         const currentNumber = parseInt(query.number)
-        const currentAnswer = this.props.answers[currentNumber]
+        const currentAnswer = answers[currentNumber]
 
         const question = settings.questions[currentNumber - 1] || {}
 
@@ -53,7 +55,7 @@ class Question extends React.Component{
             </header>
 
             <div className='content'>
-                <div className="answerWrap">
+                <div className={isLeaving ? "answerWrap leaving" : "answerWrap"}>
                     {answerRender}
                 </div>
             </div>
@@ -76,10 +78,17 @@ class Question extends React.Component{
 
         this.props.saveAnswer(answer, currentNumber)
 
+        this.setState({
+            isLeaving: true
+        })
+
         // Go to next page
-        nextQuestion > 0
-            ? Router.pushRoute('question', {number: nextQuestion})
-            : Router.pushRoute('share')
+        setTimeout(() => { 
+            nextQuestion > 0
+                ? Router.pushRoute('question', {number: nextQuestion})
+                : Router.pushRoute('share')
+            this.setState({ isLeaving: false })
+        }, 500)
     }
 }
 

@@ -5,9 +5,9 @@ const {
 const sgMail = require('@sendgrid/mail');
 
 var fs = require("fs");
-const emailTop = fs.readFileSync("../lib/resultEmailTop.html")
-const emailMiddle = fs.readFileSync("../lib/resultEmailMiddle.html")
-const emailBottom = fs.readFileSync("../lib/resultEmailBottom.html")
+const emailTop = fs.readFileSync(__dirname + "/../lib/resultEmailTop.html")
+const emailMiddle = fs.readFileSync(__dirname + "/../lib/resultEmailMiddle.html")
+const emailBottom = fs.readFileSync(__dirname + "/../lib/resultEmailBottom.html")
 
 class SettingsControllers {
 
@@ -53,18 +53,25 @@ class SettingsControllers {
             const data = req.body || {};
             const settings = data.state.settings
 
-            const body = emailTop +
-                settings.resultsTitle +
-                settings.resultsParagraph +
-                emailMiddle +
-                emailBottom
+            const body = emailTop
+                + '<h1>'
+                + settings.resultsTitle
+                + '</h1>'
+                + '<p>'
+                + settings.resultsParagraph
+                + '</p>'
+                + emailMiddle
+                + emailBottom
 
             sgMail.setApiKey(process.env.SENDGRID_API_KEY);
             const msg = {
                 to: data.email,
-                from: 'info@savemefrom.com',
+                from: {
+                    email: 'info@savemefrom.com',
+                    name: 'Save Me From™ team'
+                },
                 subject: 'You product recommendations',
-                html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+                html: body
             };
             sgMail.send(msg);
 

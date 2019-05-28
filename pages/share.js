@@ -40,7 +40,7 @@ class Share extends React.Component{
             </div>
 
             <footer>
-                <a className="shareSkip" onClick={() => Router.pushRoute('results')}>Not thanks, take me to my results</a>
+                <a className="greyed" onClick={() => Router.pushRoute('results')}>Not thanks, take me to my results</a>
             </footer>
         </QuizContainer>
     }
