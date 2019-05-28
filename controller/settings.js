@@ -62,11 +62,11 @@ class SettingsControllers {
             productSection = productSection
                 .replace("PRODUCT1_IMG", product.image)
                 .replace("PRODUCT1_TITLE", product.title)
-                .replace("PRODUCT1_CAT", product.category)
+                .replace("PRODUCT1_CAT", product.type)
                 .replace("PRODUCT1_URL", product.url)
                 .replace("PRODUCT2_IMG", defaultProduct.image)
                 .replace("PRODUCT2_TITLE", defaultProduct.title)
-                .replace("PRODUCT2_CAT", defaultProduct.category)
+                .replace("PRODUCT2_CAT", defaultProduct.type)
                 .replace("PRODUCT2_URL", defaultProduct.url)
 
             const body = emailTop
