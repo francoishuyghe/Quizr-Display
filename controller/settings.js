@@ -51,7 +51,23 @@ class SettingsControllers {
     async sendEmail(req, res, next) {
         try {
             const data = req.body || {};
-            const settings = data.state.settings
+            const { settings, answer } = data.state
+            const product = answer ? answer.product : {}
+
+            const defaultProduct = settings.resultOptions.find((option) => {
+                return option.defaultOption == true
+            })
+
+            var productSection = emailMiddle
+            productSection = productSection
+                .replace("PRODUCT1_IMG", product.image)
+                .replace("PRODUCT1_TITLE", product.title)
+                .replace("PRODUCT1_CAT", product.category)
+                .replace("PRODUCT1_URL", product.url)
+                .replace("PRODUCT2_IMG", defaultProduct.image)
+                .replace("PRODUCT2_TITLE", defaultProduct.title)
+                .replace("PRODUCT2_CAT", defaultProduct.category)
+                .replace("PRODUCT2_URL", defaultProduct.url)
 
             const body = emailTop
                 + '<h1>'

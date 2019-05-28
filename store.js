@@ -23,7 +23,8 @@ const initialState = {
     introTitle: '',
     introParagraph: '',
     questions: [],
-    resultOptions: []
+    resultOptions: [],
+    answer: {}
   },
   answers: []
 }
@@ -34,7 +35,8 @@ export const actionTypes = {
   RECEIVE_SETTINGS: 'RECEIVE_SETTINGS',
   SAVE_ANSWER: 'SAVE_ANSWER',
   SEND_EMAIL: 'SEND_EMAIL',
-  SAVE_EMAIL: 'SAVE_EMAIL'
+  SAVE_EMAIL: 'SAVE_EMAIL',
+  CALCULATE_ANSWER: 'CALCULATE_ANSWER'
 }
 
 // REDUCERS
@@ -60,6 +62,10 @@ export const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         answers: action.answers
       });
+    
+    case actionTypes.CALCULATE_ANSWER:
+      newState.answer = action.answer
+      return newState  
 
     default:
       return state
@@ -107,15 +113,16 @@ export function getSettings(shop) {
 // EMAIL FUNCTIONS
 //#################
 
-export function sendEmail(email, results) {
+export function sendEmail(email, answer) {
   return (dispatch, getState) => {
 
     const state = Object.assign({}, getState());
     let dataToSave = {
       email,
-      results,
+      answer,
       state
     }
+
     dispatch(saveEmail(email))
 
     return fetch(APP_URL + `/api/sendemail`, {
@@ -179,6 +186,57 @@ export function saveAnswer(answer, questionNum) {
     dispatch({
       type: actionTypes.SAVE_ANSWER,
       answers
+    })
+  }
+}
+
+export function calculateAnswer() {
+  return (dispatch, getState) => {
+    let { answers, settings } = Object.assign({}, getState());
+    
+    let positive = []
+    let negative = []
+    let results = {}
+
+    //Group positivie and negative answers
+    answers.map((answer) => {
+        positive = positive.concat(answer.positive)
+        negative = negative.concat(answer.negative)
+    })
+
+    //Count points for each option
+    positive.map((value) => {
+        results[value._id] = results[value._id] ? results[value._id] + 1 : 1
+    })
+    negative.map((value) => {
+        results[value._id] = results[value._id] ? results[value._id] - 1 : -1
+    })
+
+    //Organize results in array
+    var sortable = [];
+    for (var value in results) {
+        sortable.push([value, results[value]]);
+    }
+
+    //Sort array
+    sortable.sort(function(a, b) {
+        return a[1] - b[1];
+    });
+
+    //Only get top result
+    const topResult = sortable.slice(0, 1)
+    console.log('topResult: ', topResult)
+    
+    //Find full option object in settings
+    const answer = settings.resultOptions.find((option) => {
+      return option._id == topResult[0][0]
+    })
+
+    console.log('answer: ', answer)
+
+    dispatch({
+      type: actionTypes.CALCULATE_ANSWER,
+      answer
     })
   }
 }

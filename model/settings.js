@@ -69,34 +69,17 @@ const emailsSchema = new Schema({
 
 //Result Options
 const resultOptionSchema = Schema({
-  title: {
-    type: String
-  },
-  defaultOption: {
-    type: Boolean
-  },
-  slug: {
-    type: String
-  },
-  paragraph: {
-    type: String
-  },
+  title: { type: String },
+  defaultOption: { type: Boolean },
+  slug: { type: String },
+  paragraph: { type: String },
   product: {
-    id: {
-      type: String
-    },
-    title: {
-      type: String
-    },
-    handle: {
-      type: String
-    },
-    descriptionHtml: {
-      type: String
-    },
-    image: {
-      type: String
-    }
+    id: {type: String},
+    title: { type: String },
+    url: { type: String },
+    type: { type: String },
+    descriptionHtml: { type: String },
+    image: { type: String }
   }
 });
 

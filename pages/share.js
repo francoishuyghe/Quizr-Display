@@ -15,6 +15,10 @@ class Share extends React.Component{
         this.sendEmail = this.sendEmail.bind(this)
     }
 
+    componentWillMount(){
+        this.props.calculateAnswer()
+    }
+
     render() {
         const { settings } = this.props
 
@@ -59,7 +63,7 @@ class Share extends React.Component{
                 //TODO
                 
                 //Send email to contact
-                this.props.sendEmail(email, this.props.answers)
+                this.props.sendEmail(email, this.props.answer)
 
                 // Route to a thank you message
                 Router.pushRoute('shared')
@@ -80,7 +84,7 @@ class Share extends React.Component{
 const mapStateToProps = (state) => {
     return {
       settings: state.settings,
-      answers: state.answers
+      answer: state.answer
     }
   }
   const mapDispatchToProps = { sendEmail }
