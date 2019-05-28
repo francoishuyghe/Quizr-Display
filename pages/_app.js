@@ -4,6 +4,15 @@ import App, { Container } from 'next/app';
 import { Provider } from 'react-redux'
 import withReduxStore from '../lib/with-redux-store'
 
+//Google Analytics
+import ReactGA from 'react-ga';
+ReactGA.initialize('UA-74357159-16', {
+  gaOptions: {
+    referrer: 'savemefrom.myshopify.com'
+  }
+});
+
+
 class QuizApp extends App {
 
   static async getInitialProps({ Component, ctx }) {
@@ -14,6 +23,10 @@ class QuizApp extends App {
     }
 
     return { pageProps };
+  }
+
+  componentDidUpdate() { 
+    ReactGA.pageview(window.location.pathname);
   }
 
   render() {
