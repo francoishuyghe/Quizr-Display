@@ -17,11 +17,13 @@ class Shared extends React.Component{
           <h1>{settings.thankYouTitle}</h1>
         </header>
         
+          <div className="content">
           <p>{ settings.thankYouText }</p>
           <a href="https://savemefrom.com/shop" target="_parent" className="btn">Shop Now</a>
+          </div>
 
           <footer>
-            <a className="greyed" onClick={() => Router.pushRoute('/', { shop: this.props.shop })}>Take the quiz again</a>
+            <a className="greyed" onClick={() => Router.pushRoute('/', { shop: this.props.shop, domain: this.props.domain })}>Take the quiz again</a>
           </footer>
         </QuizContainer>
     }
@@ -30,7 +32,9 @@ class Shared extends React.Component{
 //Connect Redux
 const mapStateToProps = (state) => {
   return {
-    settings: state.settings
+    settings: state.settings, 
+    shop: state.shop,
+    domain: state.domain
   }
 }
 

@@ -76,8 +76,8 @@ const resultOptionSchema = Schema({
   product: {
     id: {type: String},
     title: { type: String },
-    url: { type: String },
-    type: { type: String },
+    handle: { type: String },
+    productType: { type: String },
     descriptionHtml: { type: String },
     image: { type: String }
   }

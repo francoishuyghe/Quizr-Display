@@ -51,23 +51,29 @@ class SettingsControllers {
     async sendEmail(req, res, next) {
         try {
             const data = req.body || {};
-            const { settings, answer } = data.state
+            const { domain, settings, answer } = data.state
             const product = answer ? answer.product : {}
 
-            const defaultProduct = settings.resultOptions.find((option) => {
+
+            const defaultOptiom = settings.resultOptions.find((option) => {
                 return option.defaultOption == true
             })
+            const defaultProduct = defaultOptiom ? defaultOptiom.product : {}
+            console.log('defaultProduct: ', defaultProduct)
 
-            var productSection = emailMiddle
+            const url1 = domain + '/products/' + product.handle
+            const url2 = domain + '/products/' + defaultProduct.handle
+
+            var productSection = emailMiddle.toString()
             productSection = productSection
                 .replace("PRODUCT1_IMG", product.image)
                 .replace("PRODUCT1_TITLE", product.title)
                 .replace("PRODUCT1_CAT", product.productType)
-                .replace("PRODUCT1_URL", product.onlineStoreUrl)
+                .replace("PRODUCT1_URL", url1)
                 .replace("PRODUCT2_IMG", defaultProduct.image)
                 .replace("PRODUCT2_TITLE", defaultProduct.title)
                 .replace("PRODUCT2_CAT", defaultProduct.productType)
-                .replace("PRODUCT2_URL", defaultProduct.onlineStoreUrl)
+                .replace("PRODUCT2_URL", url2)
 
             const body = emailTop
                 + '<h1>'
@@ -76,7 +82,7 @@ class SettingsControllers {
                 + '<p>'
                 + settings.resultsParagraph
                 + '</p>'
-                + emailMiddle
+                + productSection
                 + emailBottom
 
             sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -92,6 +98,7 @@ class SettingsControllers {
             sgMail.send(msg);
 
         } catch (err) {
+            console.log(err)
             next(err)
         }
     }
@@ -102,7 +109,7 @@ class SettingsControllers {
             const data = req.body;
             console.log('In API route', data)
 
-            Emails.update({
+            Emails.updateOne({
                 shop: data.shop
             }, {
                 $addToSet: {

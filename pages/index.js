@@ -10,12 +10,12 @@ class Index extends React.Component{
       }
     
       componentWillMount(){
-        this.props.getSettings(this.props.query.shop)
+        this.props.getSettings(this.props.query)
       }
 
     render() {
 
-        const settings = this.props.settings ? this.props.settings : {}
+      const settings = this.props.settings ? this.props.settings : {}
 
         return this.props.isLoaded ? 
         <QuizContainer name="index">

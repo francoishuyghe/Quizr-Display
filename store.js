@@ -45,7 +45,8 @@ export const reducer = (state = initialState, action) => {
   switch (action.type) {
 
     case actionTypes.GET_SETTINGS:
-      newState.shop = action.shop
+      newState.shop = action.data.shop
+      newState.domain = action.data.domain
       return newState
 
     case actionTypes.REQUEST_SETTINGS:
@@ -77,10 +78,10 @@ export const reducer = (state = initialState, action) => {
 //#################
 // GET SETTINGS
 //#################
-export const requestSettings = (shop) => {
+export const requestSettings = (data) => {
   return {
     type: actionTypes.GET_SETTINGS,
-    shop
+    data
   }
 }
 export const receiveSettings = (shop, settings) => {
@@ -91,13 +92,14 @@ export const receiveSettings = (shop, settings) => {
   }
 }
 
-export function getSettings(shop) {
+export function getSettings(data) {
   return function (dispatch, getState) {
 
     const state = Object.assign({}, getState());
     if (state.isLoaded) return
 
-    dispatch(requestSettings(shop))
+    dispatch(requestSettings(data))
+    const shop = data.shop
 
     return fetch(APP_URL + `/api/settings/${shop}`)
       .then(
@@ -225,14 +227,11 @@ export function calculateAnswer() {
 
     //Only get top result
     const topResult = sortable.slice(0, 1)
-    console.log('topResult: ', topResult)
     
     //Find full option object in settings
     const answer = settings.resultOptions.find((option) => {
       return option._id == topResult[0][0]
     })
-
-    console.log('answer: ', answer)
 
     dispatch({
       type: actionTypes.CALCULATE_ANSWER,

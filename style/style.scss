@@ -56,9 +56,6 @@ font-style: normal;
         .content{
             padding: 20px 50px;
             flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             min-height: 300px;
         }
 
@@ -116,6 +113,12 @@ font-style: normal;
             }
         }
 
+        .content{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .answer{
             border: 1px solid $black;
             padding: 10px 20px;
@@ -155,6 +158,7 @@ font-style: normal;
                 font-size: 16px;
                 border: 1px solid $grey;
                 margin-bottom: 20px;
+                box-sizing: border-box;
             }
         }
 
@@ -231,7 +235,7 @@ font-style: normal;
 
     a.btn{
         display: inline-block;
-        padding: 5px 10px;
+        padding: 5px 15px;
         text-transform: uppercase;
         border: 1px solid $black;
         border-radius: 20px;
@@ -302,3 +306,63 @@ font-style: normal;
         opacity: 0;
     }
 }
+
+@media only screen and (max-width: 600px) {
+    .quizContainer{
+        margin-top: 0;
+
+        .wrap{
+            .content{
+                min-height: 0;
+                padding: 50px 20px;
+            }
+
+            footer{
+                padding: 20px;
+            }
+        }
+
+        &.index,
+        &.intro{
+            .wrap{
+                padding: 50px 20px;
+            }
+        }
+
+        &.share{
+            form{
+                width: 100%;
+
+
+            }
+        }
+
+        &.results{
+            margin: 0;
+
+            .wrap{
+                header{
+                    padding: 20px;
+                }
+            }
+        }
+
+        .productBlock{
+            .productImage{
+                float: none;
+                width: 70%;
+                margin-left: 15%;
+            }
+
+            .productText{
+                float: none;
+                width: 100%;
+                margin-left: 0;
+            }
+        }
+
+        h1{
+            font-size: 1.5em;
+        }
+    }
+  }
