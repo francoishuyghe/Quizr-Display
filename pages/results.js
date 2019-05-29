@@ -1,13 +1,9 @@
 import QuizContainer from '../components/QuizContainer'
 import Result from '../components/Result'
-import { saveAnswer, calculateAnswer } from '../store'
+import { saveAnswer } from '../store'
 import { connect } from 'react-redux'
 
 class Results extends React.Component{
-
-    componentWillMount(){
-        this.props.calculateAnswer()
-    }
 
     render() {
 
@@ -42,7 +38,7 @@ const mapStateToProps = (state) => {
       answer: state.answer
     }
   }
-  const mapDispatchToProps = { saveAnswer, calculateAnswer }
+  const mapDispatchToProps = { saveAnswer }
 
   const connectedResults = connect(mapStateToProps, mapDispatchToProps)(Results)
   

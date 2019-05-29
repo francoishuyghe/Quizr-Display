@@ -1,6 +1,6 @@
 import {Router} from '../routes'
 import QuizContainer from '../components/QuizContainer'
-import { sendEmail } from '../store'
+import { sendEmail, calculateAnswer } from '../store'
 import { connect } from 'react-redux'
 
 class Share extends React.Component{
@@ -87,7 +87,7 @@ const mapStateToProps = (state) => {
       answer: state.answer
     }
   }
-  const mapDispatchToProps = { sendEmail }
+  const mapDispatchToProps = { sendEmail, calculateAnswer }
 
   const connectedShare = connect(mapStateToProps, mapDispatchToProps)(Share)
   
