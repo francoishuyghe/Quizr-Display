@@ -59,7 +59,6 @@ class SettingsControllers {
                 return option.defaultOption == true
             })
             const defaultProduct = defaultOptiom ? defaultOptiom.product : {}
-            console.log('defaultProduct: ', defaultProduct)
 
             const url1 = domain + '/products/' + product.handle
             const url2 = domain + '/products/' + defaultProduct.handle
@@ -89,10 +88,10 @@ class SettingsControllers {
             const msg = {
                 to: data.email,
                 from: {
-                    email: 'info@savemefrom.com',
-                    name: 'Save Me From™ team'
+                    email: settings.resultEmail,
+                    name: settings.resultEmailName
                 },
-                subject: 'You product recommendations',
+                subject: settings.resultEmailTitle,
                 html: body
             };
             sgMail.send(msg);

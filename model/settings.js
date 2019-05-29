@@ -10,12 +10,8 @@ const settingsSchema = new Schema({
     required: true,
     dropDups: true
   },
-  introTitle: {
-    type: String
-  },
-  introParagraph: {
-    type: String
-  },
+  introTitle: {type: String},
+  introParagraph: {type: String},
   resultsTitle: {
     type: String
   },
@@ -36,22 +32,13 @@ const settingsSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Question'
   }],
-  resultEmail: {
-    type: String
-  },
-  thankYouTitle: {
-    type: String
-  },
-  thankYouText: {
-    type: String
-  },
-  title: {
-    type: String
-  },
-  intro: {
-    type: String
-  },
-
+  resultEmail: {type: String},
+  resultEmailName: {type: String},
+  resultEmailTitle: {type: String},
+  thankYouTitle: {type: String},
+  thankYouText: { type: String },
+  title: {type: String},
+  intro: {type: String}
 });
 
 // Collected Emails
