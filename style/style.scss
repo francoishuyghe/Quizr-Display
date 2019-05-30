@@ -5,6 +5,15 @@ $grey: #ABABAB;
 $lightgrey: #FAFAFA;
 $padding: 100px;
 
+//Mixins
+@mixin clearfix{
+    &::after {
+        content: "";
+        clear: both;
+        display: table;
+      }
+}
+
 //Fonts
 @font-face {
     font-family: 'ApercuPro';
@@ -239,6 +248,7 @@ font-style: normal;
         text-transform: uppercase;
         border: 1px solid $black;
         border-radius: 20px;
+        color: $black;
         text-decoration: none;
         cursor: pointer;
 
@@ -269,6 +279,7 @@ font-style: normal;
 //Product Block
 
 .productBlock{
+    @include clearfix;
 
     .productImage{
         float: left;

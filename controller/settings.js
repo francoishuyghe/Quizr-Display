@@ -51,27 +51,23 @@ class SettingsControllers {
     async sendEmail(req, res, next) {
         try {
             const data = req.body || {};
-            const { domain, settings, answer } = data.state
-            const product = answer ? answer.product : {}
+            const { domain, topAnswers, settings } = data.state
 
+            const product1 = topAnswers[0] ? topAnswers[0].product : {}
+            const product2 = topAnswers[1] ? topAnswers[1].product : {}
 
-            const defaultOptiom = settings.resultOptions.find((option) => {
-                return option.defaultOption == true
-            })
-            const defaultProduct = defaultOptiom ? defaultOptiom.product : {}
-
-            const url1 = domain + '/products/' + product.handle
-            const url2 = domain + '/products/' + defaultProduct.handle
+            const url1 = domain + '/products/' + product1.handle
+            const url2 = domain + '/products/' + product2.handle
 
             var productSection = emailMiddle.toString()
             productSection = productSection
-                .replace("PRODUCT1_IMG", product.image)
-                .replace("PRODUCT1_TITLE", product.title)
-                .replace("PRODUCT1_CAT", product.productType)
+                .replace("PRODUCT1_IMG", product1.image)
+                .replace("PRODUCT1_TITLE", product1.title)
+                .replace("PRODUCT1_CAT", product1.productType)
                 .replace("PRODUCT1_URL", url1)
-                .replace("PRODUCT2_IMG", defaultProduct.image)
-                .replace("PRODUCT2_TITLE", defaultProduct.title)
-                .replace("PRODUCT2_CAT", defaultProduct.productType)
+                .replace("PRODUCT2_IMG", product2.image)
+                .replace("PRODUCT2_TITLE", product2.title)
+                .replace("PRODUCT2_CAT", product2.productType)
                 .replace("PRODUCT2_URL", url2)
 
             const body = emailTop

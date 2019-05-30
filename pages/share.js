@@ -63,7 +63,7 @@ class Share extends React.Component{
                 //TODO
                 
                 //Send email to contact
-                this.props.sendEmail(email, this.props.answer)
+                this.props.sendEmail(email)
 
                 // Route to a thank you message
                 Router.pushRoute('shared')
@@ -83,8 +83,7 @@ class Share extends React.Component{
 //Connect Redux
 const mapStateToProps = (state) => {
     return {
-      settings: state.settings,
-      answer: state.answer
+      settings: state.settings
     }
   }
   const mapDispatchToProps = { sendEmail, calculateAnswer }

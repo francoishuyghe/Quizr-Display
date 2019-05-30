@@ -23,9 +23,9 @@ const initialState = {
     introTitle: '',
     introParagraph: '',
     questions: [],
-    resultOptions: [],
-    answer: {}
+    resultOptions: []
   },
+  topAnswers: [],
   answers: []
 }
 
@@ -65,7 +65,7 @@ export const reducer = (state = initialState, action) => {
       });
     
     case actionTypes.CALCULATE_ANSWER:
-      newState.answer = action.answer
+      newState.topAnswers = action.topAnswers
       return newState  
 
     default:
@@ -115,13 +115,12 @@ export function getSettings(data) {
 // EMAIL FUNCTIONS
 //#################
 
-export function sendEmail(email, answer) {
+export function sendEmail(email) {
   return (dispatch, getState) => {
 
     const state = Object.assign({}, getState());
     let dataToSave = {
       email,
-      answer,
       state
     }
 
@@ -225,17 +224,20 @@ export function calculateAnswer() {
         return a[1] - b[1];
     });
 
-    //Only get top result
-    const topResult = sortable.slice(0, 1)
+    //Only get top results
+    var numberOfResults = 2
+    const topResult = sortable.slice(0, numberOfResults)
     
     //Find full option object in settings
-    const answer = settings.resultOptions.find((option) => {
-      return option._id == topResult[0][0]
+    const topAnswers = topResult.map(result => { 
+      return settings.resultOptions.find((option) => {
+        return option._id == result[0]
+      })
     })
 
     dispatch({
       type: actionTypes.CALCULATE_ANSWER,
-      answer
+      topAnswers
     })
   }
 }

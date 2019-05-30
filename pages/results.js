@@ -7,7 +7,7 @@ class Results extends React.Component{
 
     render() {
 
-        const { settings, answer } = this.props
+        const { settings, topAnswers } = this.props
 
         const defaultOption = settings.resultOptions.find((option) => {
             return option.defaultOption == true
@@ -20,7 +20,7 @@ class Results extends React.Component{
             </header>
 
             <div className="content">
-                {answer && <Result result={answer} />}
+                {topAnswers && topAnswers.map(answer => <Result result={answer} />)}
                 {defaultOption && <Result result={defaultOption} />}
             </div>
 
@@ -35,7 +35,7 @@ class Results extends React.Component{
 const mapStateToProps = (state) => {
     return {
       settings: state.settings,
-      answer: state.answer
+      topAnswers: state.topAnswers
     }
   }
   const mapDispatchToProps = { saveAnswer }
