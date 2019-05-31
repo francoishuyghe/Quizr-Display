@@ -9,7 +9,7 @@ class ProductDisplay extends React.Component {
               </div>
               <div className="productText">
                 <h3>{product.title}</h3>
-                <div className="description" dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
+          <div className="description">{ this.props.description }</div>
                 <a className="btn" href={product.url}>Shop Now</a>
               </div>
             </div>

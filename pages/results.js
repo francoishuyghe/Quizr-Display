@@ -20,7 +20,7 @@ class Results extends React.Component{
             </header>
 
             <div className="content">
-                {topAnswers && topAnswers.map(answer => <Result result={answer} />)}
+                {topAnswers && topAnswers.map(answer => <Result key={answer._id} result={answer} />)}
                 {defaultOption && <Result result={defaultOption} />}
             </div>
 
