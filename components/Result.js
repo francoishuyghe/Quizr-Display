@@ -7,7 +7,7 @@ class Result extends React.Component {
 
     return (
        <div className="result" >
-        {result.product && <ProductDisplay product={result.product} description={result.paragraph}/>}
+        {result.product && <ProductDisplay index={this.props.index} product={result.product} description={result.paragraph}/>}
        </div>
     )
     };
