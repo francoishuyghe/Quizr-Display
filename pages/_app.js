@@ -4,6 +4,9 @@ import App, { Container } from 'next/app';
 import { Provider } from 'react-redux'
 import withReduxStore from '../lib/with-redux-store'
 
+//iFrame resize
+import '../lib/iframeResizer.contentWindow.min.js'
+
 //Google Analytics
 import ReactGA from 'react-ga';
 ReactGA.initialize('UA-74357159-16', {
