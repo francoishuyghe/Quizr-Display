@@ -10,7 +10,7 @@ class QuizContainer extends React.Component {
         <Head>
           <title>Quizr</title>
           <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-          <script src="../lib/iframeResizer.contentWindow.min.js" type="text/javascript"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.1.1/iframeResizer.contentWindow.min.js" type="text/javascript"></script>
         </Head>
         
         <div className="gradient">  
