@@ -21,7 +21,7 @@ class Index extends React.Component{
         <QuizContainer name="index">
             <h1>{ settings.title }</h1>
             <p>{ settings.intro }</p>
-            <a onClick={() => Router.pushRoute('intro')} className="btn">Start</a>
+            <a onClick={() => Router.pushRoute('intro').then(() => window.scrollTo(0, 0))} className="btn">Start</a>
         </QuizContainer>
         : 'Loading'
     }

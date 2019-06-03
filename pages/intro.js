@@ -21,7 +21,7 @@ class Intro extends React.Component{
         <QuizContainer name="intro">
             <h1>{ settings.introTitle }</h1>
             <p>{ settings.introParagraph }</p>
-            <a onClick={() => Router.pushRoute('question', {number: 1})} className="btn">Next</a>
+            <a onClick={() => Router.pushRoute('question', {number: 1}).then(() => window.scrollTo(0, 0))} className="btn">Next</a>
         </QuizContainer>
         : 'Loading'
     }

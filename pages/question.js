@@ -83,12 +83,15 @@ class Question extends React.Component{
         })
 
         // Go to next page
-        setTimeout(() => { 
-            nextQuestion > 0
-                ? Router.pushRoute('question', {number: nextQuestion})
-                : Router.pushRoute('share')
-            this.setState({ isLeaving: false })
-        }, 500)
+        if (nextQuestion > 0) {
+            setTimeout(() => {
+                Router.pushRoute('question', { number: nextQuestion }).then(() => window.scrollTo(0, 0))
+                this.setState({ isLeaving: false })
+            }, 500)
+
+        } else { 
+            Router.pushRoute('share').then(() => window.scrollTo(0, 0))
+        }
     }
 }
 
