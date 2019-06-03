@@ -36,6 +36,12 @@ font-style: normal;
 }
   
 //Styles
+html, body{
+    padding: 0;
+    margin: 0;
+    background: $black;
+}
+
 .quizContainer{
     padding: 100px 0;
     display: flex;
@@ -43,6 +49,11 @@ font-style: normal;
     justify-content: center;
     text-align: center;
     font-family: 'ApercuPro', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+    background: url(https://cdn.shopify.com/s/files/1/0058/3450/6307/files/quiz-bg.jpg);
+    background-size: cover;
+    background-color: $black;
+    background-repeat: no-repeat;
 
     .gradient{
         background: linear-gradient(to right, red, purple);
@@ -55,6 +66,7 @@ font-style: normal;
         display: flex;
         flex-direction: column;
         background: $white;
+        transition: .3s;
 
         header{
             padding: 50px;
@@ -78,21 +90,21 @@ font-style: normal;
     &.index{
         .wrap{
             display: block;
-            padding: 50px;
+            padding: 100px 50px;
+            background-color: $black;
+            color: $white;
+
+            a.btn{
+                border-color: $white;
+                color: $white;
+            }
         }
     }
 
     &.intro{
         .wrap{
             display: block;
-            background-color: $black;
-            color: $white;
             padding: $padding;
-        }
-
-        a.btn{
-            border-color: $white;
-            color: $white;
         }
     }
 
@@ -324,8 +336,13 @@ font-style: normal;
 @media only screen and (max-width: 600px) {
     .quizContainer{
         padding: 0;
+        background: $black;
 
         .wrap{
+            header{
+                padding: 20px;
+            }
+
             .content{
                 min-height: 0;
                 padding: 50px 20px;
