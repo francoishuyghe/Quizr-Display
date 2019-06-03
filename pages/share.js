@@ -44,7 +44,7 @@ class Share extends React.Component{
             </div>
 
             <footer>
-                <a className="greyed" onClick={() => Router.pushRoute('results')}>No thanks, take me to my results</a>
+                <a className="greyed" onClick={() => Router.pushRoute('results').then(() => window.scrollTo(0, 0))}>No thanks, take me to my results</a>
             </footer>
         </QuizContainer>
     }

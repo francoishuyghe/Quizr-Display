@@ -1,5 +1,5 @@
 import QuizContainer from '../components/QuizContainer'
-import Result from '../components/Result'
+import ProductDisplay from '../components/productDisplay'
 import { saveAnswer } from '../store'
 import { connect } from 'react-redux'
 
@@ -20,8 +20,8 @@ class Results extends React.Component{
             </header>
 
             <div className="content">
-                {topAnswers && topAnswers.map((answer, index) => <Result index={index} key={answer._id} result={answer} />)}
-                {defaultOption && <Result result={defaultOption} />}
+                {topAnswers && topAnswers.map((answer, index) => <ProductDisplay index={index} key={answer._id} product={answer.product} description={answer.paragraph}  settings={settings} />)}
+                {defaultOption && <ProductDisplay product={defaultOption.product} description={defaultOption.paragraph} settings={settings} />}
             </div>
 
             <footer>
