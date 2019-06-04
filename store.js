@@ -15,6 +15,8 @@ const loggerMiddleware = createLogger({
 const initialState = {
   isFetching: false,
   isLoaded: false,
+  shop: '',
+  domain: '',
   settings: {
     collectEmailChecked: true,
     resultsTitle: '',

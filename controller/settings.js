@@ -91,6 +91,7 @@ class SettingsControllers {
                 html: body
             };
             sgMail.send(msg);
+            res.send(msg)
 
         } catch (err) {
             console.log(err)

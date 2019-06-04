@@ -1,6 +1,7 @@
 const express = require('express')
 const next = require('next')
 const SettingsControllers = require('./controller/settings');
+const bodyParser = require('body-parser');
 
 //ENV variables
 const dotenv = require('dotenv');
@@ -30,8 +31,12 @@ app
   .prepare()
   .then(() => {
     const server = express()
-    server.use(express.urlencoded());
-    server.use(express.json());
+    //server.use(express.urlencoded());
+    //server.use(express.json());
+
+    // Tell the bodyparser middleware to accept more data
+    server.use(bodyParser.json({limit: '5mb'}));
+    server.use(bodyParser.urlencoded({limit: '5mb', extended: true}));
 
     // GET SETTINGS
     server.get('/api/settings/:shop', SettingsControllers.find);
