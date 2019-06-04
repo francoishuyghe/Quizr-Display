@@ -194,8 +194,6 @@ export function saveAnswer(answer, questionNum) {
 export function calculateAnswer() {
   return (dispatch, getState) => {
     let { answers, settings } = Object.assign({}, getState());
-
-    console.log(answers)
     
     let positive = []
     let negative = []
@@ -206,8 +204,6 @@ export function calculateAnswer() {
         positive = positive.concat(answer.positive)
         negative = negative.concat(answer.negative)
     })
-    console.log('Positive: ', positive)
-    console.log('Negative: ', negative)
 
     //Count points for each option
     positive.map((value) => {
@@ -227,8 +223,6 @@ export function calculateAnswer() {
     sortable.sort(function(a, b) {
         return b[1] - a[1];
     });
-
-    console.log('Sortable: ', sortable)
 
     //Only get top results
     var numberOfResults = 2

@@ -24,7 +24,7 @@ class Share extends React.Component{
 
         return <QuizContainer name="share">
             <header>
-                <h1>Share</h1>
+                <h1>Almost there!</h1>
             </header>
 
             <div className="content">
@@ -66,7 +66,7 @@ class Share extends React.Component{
                 this.props.sendEmail(email)
 
                 // Route to a thank you message
-                Router.pushRoute('shared')
+                Router.pushRoute('results')
             } else {
                 this.setState({
                     error: 'Please enter a valid email address'

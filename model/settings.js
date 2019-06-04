@@ -35,8 +35,6 @@ const settingsSchema = new Schema({
   resultEmail: {type: String},
   resultEmailName: {type: String},
   resultEmailTitle: {type: String},
-  thankYouTitle: {type: String},
-  thankYouText: { type: String },
   title: {type: String},
   intro: {type: String}
 });
