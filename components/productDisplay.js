@@ -14,7 +14,7 @@ class ProductDisplay extends React.Component {
               <div className="productText">
                 <h3>{product.title}</h3>
                 <div className="description" dangerouslySetInnerHTML={{ __html: this.props.description }} />
-                <a className="btn" target="_parent" href={domain + '/products/' + product.handle}>Shop Now</a>
+                <a className="btn" target="_parent" href={'https://' + domain + '/products/' + product.handle}>Shop Now</a>
               </div>
             </div>
     }
