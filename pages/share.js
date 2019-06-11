@@ -20,7 +20,7 @@ class Share extends React.Component{
     }
 
     render() {
-        const { settings } = this.props
+        const { settings, coupons } = this.props
 
         return <QuizContainer name="share">
             <header>
@@ -39,7 +39,7 @@ class Share extends React.Component{
                 /><br/>
                 { this.state.error && 
                     <div className="alert">{ this.state.error }</div>}
-                <a onClick={this.sendEmail} className="btn">Send my Results</a>
+                    <a onClick={this.sendEmail} className="btn">Send my Results{coupons._id && coupons.discountCodes.length > 0 && " + Discount code"}</a>
                 </form>
             </div>
 
@@ -83,7 +83,8 @@ class Share extends React.Component{
 //Connect Redux
 const mapStateToProps = (state) => {
     return {
-      settings: state.settings
+        settings: state.settings,
+        coupons: state.coupons
     }
   }
   const mapDispatchToProps = { sendEmail, calculateAnswer }

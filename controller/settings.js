@@ -2,6 +2,7 @@ const {
     Settings,
     Emails
 } = require('../model/settings')
+const Coupons = require('../model/coupons')
 const sgMail = require('@sendgrid/mail');
 
 var fs = require("fs");
@@ -15,9 +16,7 @@ class SettingsControllers {
     async find(req, res, next) {
         try {
             console.log('Getting Settings');
-            const {
-                shop
-            } = req.params
+            const {shop} = req.params
             const data = await Settings
                 .findOne({
                     shop: shop
@@ -47,11 +46,29 @@ class SettingsControllers {
         }
     }
 
+    //GET the coupons
+    async findCoupons(req, res, next) {
+        try {
+            console.log('Getting Coupons');
+            const {shop} = req.params
+            const data = await Coupons
+                .findOne({
+                    shop: shop
+                })
+            console.log(data)
+            res.send(data ? data : {})
+
+        } catch (err) {
+            next(err)
+        }
+    }
+
     //POST Send Email
     async sendEmail(req, res, next) {
         try {
             const data = req.body || {};
             const { domain, topAnswers, settings } = data.state
+            const {couponToSend} = data
 
             const product1 = topAnswers[0] ? topAnswers[0].product : {}
             const product2 = topAnswers[1] ? topAnswers[1].product : {}
@@ -59,8 +76,10 @@ class SettingsControllers {
             const url1 = domain + '/products/' + product1.handle
             const url2 = domain + '/products/' + product2.handle
 
-            var productSection = emailMiddle.toString()
+            var productSection = emailTop.toString()
             productSection = productSection
+                .replace("RESULT_TITLE", settings.resultsTitle)
+                .replace("RESULT_PARAGRAPH", settings.resultsParagraph)
                 .replace("PRODUCT1_IMG", product1.image)
                 .replace("PRODUCT1_TITLE", product1.title)
                 .replace("PRODUCT1_CAT", product1.productType)
@@ -69,15 +88,15 @@ class SettingsControllers {
                 .replace("PRODUCT2_TITLE", product2.title)
                 .replace("PRODUCT2_CAT", product2.productType)
                 .replace("PRODUCT2_URL", url2)
-
-            const body = emailTop
-                + '<h1>'
-                + settings.resultsTitle
-                + '</h1>'
-                + '<p>'
-                + settings.resultsParagraph
-                + '</p>'
-                + productSection
+            
+            var promoSection = couponToSend.discountCode
+                ? emailMiddle.toString()
+                    .replace("DISCOUNT_TEXT", couponToSend.discountText)
+                    .replace("DISCOUNT_CODE", couponToSend.discountCode)
+                : ''
+            
+            const body = productSection
+                + promoSection
                 + emailBottom
 
             sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -117,6 +136,25 @@ class SettingsControllers {
                 console.log(err)
                 res.send(data.email)
             });
+        } catch (err) {
+            next(err)
+        }
+    }
+    
+    //PUT Update Coupons
+    async updateCoupons(req, res, next) {
+        try {
+            const data = req.body;
+            console.log('In API route', data)
+
+            Coupons.updateOne({
+                shop: data.shop
+            }, 
+                data.updatedCoupons,
+                function (err) {
+                    console.log(err)
+                    res.send(data.email)
+                });
         } catch (err) {
             next(err)
         }

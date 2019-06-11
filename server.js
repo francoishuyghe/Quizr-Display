@@ -39,9 +39,11 @@ app
     server.use(bodyParser.urlencoded({limit: '5mb', extended: true}));
 
     // GET SETTINGS
+    server.get('/api/coupons/:shop', SettingsControllers.findCoupons);
     server.get('/api/settings/:shop', SettingsControllers.find);
     server.post('/api/sendemail', SettingsControllers.sendEmail)
     server.put('/api/saveemail', SettingsControllers.saveEmail)
+    server.put('/api/updatecoupons', SettingsControllers.updateCoupons)
 
     server.use(async (req, res) => {
       await handle(req, res);

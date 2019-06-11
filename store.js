@@ -59,6 +59,7 @@ export const reducer = (state = initialState, action) => {
       newState.isFetching = false
       newState.isLoaded = true
       newState.settings = action.settings
+      newState.coupons = action.coupons
       return newState
 
     case actionTypes.SAVE_ANSWER:
@@ -86,11 +87,12 @@ export const requestSettings = (data) => {
     data
   }
 }
-export const receiveSettings = (shop, settings) => {
+export const receiveSettings = (shop, settings, coupons) => {
   return {
     type: actionTypes.RECEIVE_SETTINGS,
     shop,
-    settings
+    settings,
+    coupons
   }
 }
 
@@ -106,10 +108,17 @@ export function getSettings(data) {
     return fetch(APP_URL + `/api/settings/${shop}`)
       .then(
         response => response.json(),
-        // Do not use catch
         error => console.log('An error occurred.', error)
       )
-      .then(json => dispatch(receiveSettings(shop, json)))
+      .then(settings => { 
+        //Get the coupons
+        return fetch(APP_URL + `/api/coupons/${shop}`)
+        .then(
+          response => response.json(),
+          error => console.log('An error occurred.', error)
+        )
+        .then(coupons => dispatch(receiveSettings(shop, settings, coupons)))
+      })
   }
 }
 
@@ -120,13 +129,26 @@ export function getSettings(data) {
 export function sendEmail(email) {
   return (dispatch, getState) => {
 
+    //Save the user's email
+    dispatch(saveEmail(email))
+
     const state = Object.assign({}, getState());
-    let dataToSave = {
-      email,
-      state
+
+    let coupons = state.coupons
+    let couponToSend = {}
+    if (coupons._id && coupons.discountCodes.length > 0) { 
+      couponToSend = {
+        discountCode: coupons.discountCodes[0],
+        discountText: coupons.discountType == 'dollars' ? '$' + coupons.discountAmount : coupons.discountAmount + '%'
+      }
+      dispatch(updateCoupons(coupons, state.shop))
     }
 
-    dispatch(saveEmail(email))
+    let dataToSave = {
+      email,
+      state,
+      couponToSend
+    }
 
     return fetch(APP_URL + `/api/sendemail`, {
         method: 'POST',
@@ -142,6 +164,33 @@ export function sendEmail(email) {
       )
       .then(json => dispatch({
         type: actionTypes.SEND_EMAIL
+      }))
+  }
+}
+
+export function updateCoupons(coupons, shop) {
+  return (dispatch) => {
+
+    let updatedCoupons = coupons
+    updatedCoupons.discountCodesSent.push(coupons.discountCodes[0])
+    updatedCoupons.discountCodes.splice(0, 1),
+
+    console.log(coupons, 'Updated Coupons: ', updatedCoupons)
+
+    return fetch(APP_URL + `/api/updatecoupons`, {
+        method: 'PUT',
+        body: JSON.stringify({updatedCoupons, shop}),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(
+        response => response.json(),
+        // Do not use catch
+        error => console.log('An error occurred.', error)
+      )
+      .then(json => dispatch({
+        type: actionTypes.UPDATE_COUPONS
       }))
   }
 }

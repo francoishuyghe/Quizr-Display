@@ -15,8 +15,8 @@ class Results extends React.Component{
 
         return <QuizContainer name="results">
             <header>
-                <h1>{ settings.resultsTitle }</h1>
-                <p>{ settings.resultsParagraph }</p>
+                <h1>{settings.resultsTitle}</h1>
+                <div className="description" dangerouslySetInnerHTML={{ __html: settings.resultsParagraph }} />
             </header>
 
             <div className="content">
