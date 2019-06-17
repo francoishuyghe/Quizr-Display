@@ -39,7 +39,7 @@ class Share extends React.Component{
                 /><br/>
                 { this.state.error && 
                     <div className="alert">{ this.state.error }</div>}
-                    <a onClick={this.sendEmail} className="btn">Send my Results{coupons._id && coupons.discountCodes.length > 0 && " + Discount code"}</a>
+                    <a onClick={this.sendEmail} className="btn">Send my Results{coupons._id && !coupons.discountPaused && coupons.discountCodes.length > 0 && " + Discount code"}</a>
                 </form>
             </div>
 

@@ -136,7 +136,7 @@ export function sendEmail(email) {
 
     let coupons = state.coupons
     let couponToSend = {}
-    if (coupons._id && coupons.discountCodes.length > 0) { 
+    if (coupons._id && !coupons.discountPaused && coupons.discountCodes.length > 0) { 
       couponToSend = {
         discountCode: coupons.discountCodes[0],
         discountText: coupons.discountType == 'dollars' ? '$' + coupons.discountAmount : coupons.discountAmount + '%'
