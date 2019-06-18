@@ -245,9 +245,7 @@ export const trySavingEmail = () => {
 export function saveEmail(email) {
   return (dispatch, getState) => {
 
-    let {
-      shop
-    } = getState();
+    let {shop} = getState();
     let dataToSave = {
       email,
       shop
@@ -268,7 +266,7 @@ export function saveEmail(email) {
         error => console.log('An error occurred.', error)
       )
       .then(json => {
-        if (json.err) {
+        if (json.data.nModified == 0 && !json.data.upserted) {
           dispatch({
             type: actionTypes.ERROR_SAVING_EMAIL,
             error: 'Email address has been used before',

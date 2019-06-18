@@ -1,6 +1,6 @@
 const {
     Settings,
-    Emails
+    Stats
 } = require('../model/settings')
 const Coupons = require('../model/coupons')
 const sgMail = require('@sendgrid/mail');
@@ -123,7 +123,7 @@ class SettingsControllers {
         try {
             const {shop} = req.body
             console.log('Check Email', shop);
-            Emails
+            Stats
                 .findOne({
                     shop: shop
                 }, (data) => { 
@@ -142,7 +142,7 @@ class SettingsControllers {
             const data = req.body;
             console.log('In API route', data)
 
-            Emails.updateOne({
+            Stats.updateOne({
                 shop: data.shop
             }, {
                 $addToSet: {
@@ -150,10 +150,11 @@ class SettingsControllers {
                 }
             }, {
                 upsert: true
-            }, function (err) {
+                }, function (err, data) {
+                    console.log('save Route', err, data)
                     res.send({
                         err,
-                        data: data.email
+                        data
                     })
             });
         } catch (err) {
