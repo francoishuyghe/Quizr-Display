@@ -118,6 +118,24 @@ class SettingsControllers {
         }
     }
 
+    //CHECK Email
+    async checkEmail(req, res, next) {
+        try {
+            const {shop} = req.body
+            console.log('Check Email', shop);
+            Emails
+                .findOne({
+                    shop: shop
+                }, (data) => { 
+                    res.send(data)
+                })
+            
+
+        } catch (err) {
+            next(err)
+        }
+    }
+
     //PUT Save Email
     async saveEmail(req, res, next) {
         try {
@@ -133,8 +151,10 @@ class SettingsControllers {
             }, {
                 upsert: true
             }, function (err) {
-                console.log(err)
-                res.send(data.email)
+                    res.send({
+                        err,
+                        data: data.email
+                    })
             });
         } catch (err) {
             next(err)

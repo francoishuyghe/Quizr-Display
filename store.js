@@ -28,7 +28,10 @@ const initialState = {
     resultOptions: []
   },
   topAnswers: [],
-  answers: []
+  answers: [],
+  isSaving: false,
+  savingError: '',
+  redirect: false
 }
 
 export const actionTypes = {
@@ -38,6 +41,8 @@ export const actionTypes = {
   SAVE_ANSWER: 'SAVE_ANSWER',
   SEND_EMAIL: 'SEND_EMAIL',
   SAVE_EMAIL: 'SAVE_EMAIL',
+  TRY_SAVING_EMAIL: 'TRY_SAVING_EMAIL',
+  ERROR_SAVING_EMAIL: 'ERROR_SAVING_EMAIL',
   CALCULATE_ANSWER: 'CALCULATE_ANSWER'
 }
 
@@ -60,6 +65,21 @@ export const reducer = (state = initialState, action) => {
       newState.isLoaded = true
       newState.settings = action.settings
       newState.coupons = action.coupons
+      return newState
+    
+    case actionTypes.TRY_SAVING_EMAIL:
+      newState.isSaving = true
+      return newState
+    
+    case actionTypes.ERROR_SAVING_EMAIL:
+      newState.isSaving = false
+      newState.savingError = action.error
+      return newState
+    
+    case actionTypes.SAVE_EMAIL:
+      newState.isSaving = false
+      newState.savingError = ''
+      newState.redirect = true
       return newState
 
     case actionTypes.SAVE_ANSWER:
@@ -129,9 +149,6 @@ export function getSettings(data) {
 export function sendEmail(email) {
   return (dispatch, getState) => {
 
-    //Save the user's email
-    dispatch(saveEmail(email))
-
     const state = Object.assign({}, getState());
 
     let coupons = state.coupons
@@ -168,6 +185,30 @@ export function sendEmail(email) {
   }
 }
 
+// export function checkEmail(email) {
+//   return (dispatch, getState) => {
+
+//     const {shop} = getState()
+//     let dataToSave = {
+//       shop
+//     }
+
+//     return fetch(APP_URL + `/api/checkemail`, {
+//         method: 'POST',
+//         body: JSON.stringify(dataToSave),
+//         headers: {
+//           'Content-Type': 'application/json'
+//         }
+//       })
+//       .then(
+//         response => response.json(),
+//         // Do not use catch
+//         error => console.log('An error occurred.', error)
+//       )
+//       .then(json => console.log(json))
+//   }
+// }
+
 export function updateCoupons(coupons, shop) {
   return (dispatch) => {
 
@@ -195,6 +236,12 @@ export function updateCoupons(coupons, shop) {
   }
 }
 
+export const trySavingEmail = () => {
+  return {
+    type: actionTypes.TRY_SAVING_EMAIL
+  }
+}
+
 export function saveEmail(email) {
   return (dispatch, getState) => {
 
@@ -205,6 +252,8 @@ export function saveEmail(email) {
       email,
       shop
     }
+
+    dispatch(trySavingEmail())
 
     return fetch(APP_URL + `/api/saveemail`, {
         method: 'PUT',
@@ -218,9 +267,18 @@ export function saveEmail(email) {
         // Do not use catch
         error => console.log('An error occurred.', error)
       )
-      .then(json => dispatch({
-        type: actionTypes.SAVE_EMAIL
-      }))
+      .then(json => {
+        if (json.err) {
+          dispatch({
+            type: actionTypes.ERROR_SAVING_EMAIL,
+            error: 'Email address has been used before',
+            isSaving: false
+          })
+        } else { 
+          dispatch(sendEmail(email))
+          dispatch({type: actionTypes.SAVE_EMAIL})
+        }
+      })
   }
 }
 

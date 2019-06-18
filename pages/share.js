@@ -1,6 +1,6 @@
 import {Router} from '../routes'
 import QuizContainer from '../components/QuizContainer'
-import { sendEmail, calculateAnswer } from '../store'
+import { saveEmail, calculateAnswer} from '../store'
 import { connect } from 'react-redux'
 
 class Share extends React.Component{
@@ -19,8 +19,15 @@ class Share extends React.Component{
         this.props.calculateAnswer()
     }
 
+    componentWillReceiveProps(nextProps) { 
+        if (nextProps.redirect) { 
+            // Route to results
+            Router.pushRoute('results')
+        }
+    }
+
     render() {
-        const { settings, coupons } = this.props
+        const { settings, coupons, isSaving, savingError } = this.props
 
         return <QuizContainer name="share">
             <header>
@@ -38,8 +45,13 @@ class Share extends React.Component{
                     value={this.state.email}
                 /><br/>
                 { this.state.error && 
-                    <div className="alert">{ this.state.error }</div>}
-                    <a onClick={this.sendEmail} className="btn">Send my Results{coupons._id && !coupons.discountPaused && coupons.discountCodes.length > 0 && " + Discount code"}</a>
+                        <div className="alert">{this.state.error}</div>}
+                { savingError && 
+                        <div className="alert">{savingError}</div>}
+                    {isSaving
+                        ? <a className="btn">Saving...</a>
+                        : <a onClick={this.sendEmail} className="btn">Send my Results{coupons._id && !coupons.discountPaused && coupons.discountCodes.length > 0 && " + Discount code"}</a>
+                    }
                 </form>
             </div>
 
@@ -61,12 +73,13 @@ class Share extends React.Component{
             if (this.validateEmail(email)){
                 // Send contact to Zoho
                 //TODO
+
+                //Check if email has already been used
+                //this.props.checkEmail(email)
                 
                 //Send email to contact
-                this.props.sendEmail(email)
+                this.props.saveEmail(email)
 
-                // Route to a thank you message
-                Router.pushRoute('results')
             } else {
                 this.setState({
                     error: 'Please enter a valid email address'
@@ -84,10 +97,13 @@ class Share extends React.Component{
 const mapStateToProps = (state) => {
     return {
         settings: state.settings,
-        coupons: state.coupons
+        coupons: state.coupons,
+        isSaving: state.isSaving,
+        savingError: state.savingError,
+        redirect: state.redirect
     }
   }
-  const mapDispatchToProps = { sendEmail, calculateAnswer }
+  const mapDispatchToProps = { saveEmail, calculateAnswer }
 
   const connectedShare = connect(mapStateToProps, mapDispatchToProps)(Share)
   
