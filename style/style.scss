@@ -148,6 +148,7 @@ body{
         }
 
         .answer{
+            position: relative;
             border: 1px solid $black;
             padding: 10px 20px;
             white-space: nowrap;
@@ -160,6 +161,19 @@ body{
             &.selected{
                 color: $white;
                 background: $black;
+            }
+
+            .order{
+                position: absolute;
+                top: 0;
+                right: 0;
+                color: $black;
+                background-color: $white;
+                width: 20px;
+                height: 20px;
+                transform: translate(40%, -40%);
+                border: 1px solid $black;
+                border-radius: 100%;
             }
         }
 

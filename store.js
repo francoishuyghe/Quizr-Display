@@ -284,12 +284,31 @@ export function saveEmail(email) {
 // SAVE ANSWERS WHEN PEOPLE TAKE THE QUIZ
 //#################
 
-export function saveAnswer(answer, questionNum) {
+export function saveAnswer(answer, question) {
   return (dispatch, getState) => {
     let {
       answers
     } = Object.assign({}, getState());
-    answers[questionNum] = answer
+
+    if (question.answerNumber == 1) {
+      //Unique answer
+      answers[question._id] = [answer]
+    } else { 
+      if (answers[question._id]) {
+        const indexOf = answers[question._id].indexOf(answer)
+
+        if (indexOf >= 0) {
+          //If the element is alreadfy in array
+          answers[question._id].splice(indexOf, 1)
+        } else { 
+          //If the answer is new
+          answers[question._id].push(answer)
+        }
+      } else { 
+        //If this is a first answer
+        answers[question._id] = [answer]
+      }
+    }
 
     dispatch({
       type: actionTypes.SAVE_ANSWER,
@@ -306,8 +325,17 @@ export function calculateAnswer() {
     let negative = []
     let results = {}
 
+    let allAnswers = []
+    for (var key in  answers) { 
+      allAnswers.push(answers[key])
+    }
+    allAnswers = [].concat.apply([], allAnswers)
+
     //Group positivie and negative answers
-    answers.map((answer) => {
+    console.log(answers)
+    console.log(allAnswers)
+    
+    allAnswers.map((answer) => {
         positive = positive.concat(answer.positive)
         negative = negative.concat(answer.negative)
     })

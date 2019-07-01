@@ -19,7 +19,7 @@ class SettingsControllers {
             const {shop} = req.params
             const data = await Settings
                 .findOne({
-                    shop: shop
+                    shop: shop + ".myshopify.com"
                 })
                 .populate('resultOptions')
                 .populate({

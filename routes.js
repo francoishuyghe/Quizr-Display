@@ -6,4 +6,5 @@ module.exports = routes()                           // ----   ----      -----
 .add('question', '/question/:number')
 .add('share', '/share')
 .add('shared', '/shared')
-.add('results', '/results')
+    .add('results', '/results')
+    .add('/:shop', '/')

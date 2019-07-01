@@ -10,6 +10,7 @@ const settingsSchema = new Schema({
     required: true,
     dropDups: true
   },
+  accessToken: {type: String}, 
   introTitle: {type: String},
   introParagraph: {type: String},
   resultsTitle: {
@@ -40,11 +41,12 @@ const settingsSchema = new Schema({
 });
 
 // Collected Emails
-const statsSchema = new Schema({
+const emailsSchema = new Schema({
   shop: {
     type: String,
     unique: true,
-    required: true
+    required: true,
+    dropDups: true
   },
   emails: [{
     type: String
@@ -71,6 +73,11 @@ const resultOptionSchema = Schema({
 const questionSchema = Schema({
   question: String,
   text: String,
+  answerNumber: {
+    type: Number, 
+    default: 1
+  },
+  ordered: Boolean,
   answers: [{
     text: String,
     positive: [{
@@ -85,13 +92,13 @@ const questionSchema = Schema({
 });
 
 const Settings = mongoose.model('Settings', settingsSchema);
-const Stats = mongoose.model('Stats', statsSchema);
+const Emails = mongoose.model('Emails', emailsSchema);
 const ResultOption = mongoose.model('ResultOption', resultOptionSchema);
 const Question = mongoose.model('Question', questionSchema);
 
 module.exports = {
   Settings,
-  Stats,
+  Emails,
   ResultOption,
   Question
 }
