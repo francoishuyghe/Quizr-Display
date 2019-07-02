@@ -67,14 +67,14 @@ class SettingsControllers {
     async sendEmail(req, res, next) {
         try {
             const data = req.body || {};
-            const { domain, topAnswers, settings } = data.state
+            const { topAnswers, settings } = data.state
             const {couponToSend} = data
 
             const product1 = topAnswers[0] ? topAnswers[0].product : {}
             const product2 = topAnswers[1] ? topAnswers[1].product : {}
 
-            const url1 = domain + '/products/' + product1.handle
-            const url2 = domain + '/products/' + product2.handle
+            const url1 = settings.domain + '/products/' + product1.handle
+            const url2 = settings.domain + '/products/' + product2.handle
 
             var productSection = emailTop.toString()
             productSection = productSection

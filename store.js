@@ -16,8 +16,8 @@ const initialState = {
   isFetching: false,
   isLoaded: false,
   shop: '',
-  domain: '',
   settings: {
+    domain: '',
     collectEmailChecked: true,
     resultsTitle: '',
     resultsParagraph: '',
@@ -53,7 +53,6 @@ export const reducer = (state = initialState, action) => {
 
     case actionTypes.GET_SETTINGS:
       newState.shop = action.data.shop
-      newState.domain = action.data.domain
       return newState
 
     case actionTypes.REQUEST_SETTINGS:
@@ -214,9 +213,7 @@ export function updateCoupons(coupons, shop) {
 
     let updatedCoupons = coupons
     updatedCoupons.discountCodesSent.push(coupons.discountCodes[0])
-    updatedCoupons.discountCodes.splice(0, 1),
-
-    console.log(coupons, 'Updated Coupons: ', updatedCoupons)
+    updatedCoupons.discountCodes.splice(0, 1)
 
     return fetch(APP_URL + `/api/updatecoupons`, {
         method: 'PUT',

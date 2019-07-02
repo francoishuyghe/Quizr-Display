@@ -7,7 +7,7 @@ class Results extends React.Component{
 
     render() {
 
-        const { settings, domain, topAnswers } = this.props
+        const { settings, topAnswers } = this.props
 
         const defaultOption = settings.resultOptions.find((option) => {
             return option.defaultOption == true
@@ -20,7 +20,7 @@ class Results extends React.Component{
             </header>
 
             <div className="content">
-                {topAnswers && topAnswers.map((answer, index) => <ProductDisplay index={index} key={answer._id} product={answer.product} description={answer.paragraph}  domain={domain} />)}
+                {topAnswers && topAnswers.map((answer, index) => <ProductDisplay index={index} key={answer._id} product={answer.product} description={answer.paragraph}  domain={settings.domain} />)}
                 {defaultOption && <ProductDisplay product={defaultOption.product} description={defaultOption.paragraph} settings={settings} />}
             </div>
 
@@ -35,7 +35,6 @@ class Results extends React.Component{
 const mapStateToProps = (state) => {
     return {
         settings: state.settings,
-        domain: state.domain,
       topAnswers: state.topAnswers
     }
   }
