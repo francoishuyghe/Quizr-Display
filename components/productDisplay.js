@@ -1,7 +1,7 @@
 class ProductDisplay extends React.Component {
   
     render() {
-      const { product, domain } = this.props
+      const { product, domain, settings } = this.props
 
       const imageURL = this.props.index == 1
         ? product.secondaryImage
@@ -14,7 +14,7 @@ class ProductDisplay extends React.Component {
               <div className="productText">
                 <h3>{product.title}</h3>
                 <div className="description" dangerouslySetInnerHTML={{ __html: this.props.description }} />
-                <a className="btn" target="_blank" href={ domain + '/products/' + product.handle}>Shop Now</a>
+                <a className="btn" target="_blank" href={ settings.domain + '/products/' + product.handle}>Shop Now</a>
               </div>
             </div>
     }
