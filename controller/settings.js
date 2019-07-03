@@ -18,9 +18,7 @@ class SettingsControllers {
             console.log('Getting Settings');
             const {shop} = req.params
             const data = await Settings
-                .findOne({
-                    shop: shop + ".myshopify.com"
-                })
+                .findOne({shop})
                 .populate('resultOptions')
                 .populate({
                     path: 'questions',
@@ -37,9 +35,7 @@ class SettingsControllers {
                     }
                 })
 
-            res.send(data ? data : {
-                shop: shop
-            })
+            res.send(data ? data : {shop})
 
         } catch (err) {
             next(err)
@@ -136,8 +132,8 @@ class SettingsControllers {
         }
     }
 
-    //PUT Save Email
-    async saveEmail(req, res, next) {
+    //PUT Save User
+    async saveUser(req, res, next) {
         try {
             const data = req.body;
             console.log('In API route', data)
@@ -146,7 +142,7 @@ class SettingsControllers {
                 shop: data.shop
             }, {
                 $addToSet: {
-                    emails: data.email
+                    users: data.user
                 }
             }, {
                 upsert: true

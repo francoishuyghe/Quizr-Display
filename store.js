@@ -52,7 +52,7 @@ export const reducer = (state = initialState, action) => {
   switch (action.type) {
 
     case actionTypes.GET_SETTINGS:
-      newState.shop = action.data.shop
+      newState.shop = action.data.shop + ".myshopify.com"
       return newState
 
     case actionTypes.REQUEST_SETTINGS:
@@ -122,7 +122,7 @@ export function getSettings(data) {
     if (state.isLoaded) return
 
     dispatch(requestSettings(data))
-    const shop = data.shop
+    const shop = data.shop + ".myshopify.com"
 
     return fetch(APP_URL + `/api/settings/${shop}`)
       .then(
@@ -239,18 +239,33 @@ export const trySavingEmail = () => {
   }
 }
 
-export function saveEmail(email) {
+export function saveUser(email) {
   return (dispatch, getState) => {
 
-    let {shop} = getState();
+    let { shop, answers } = getState();
+    const quizAnswers = []
+    for (var key in answers) {
+      quizAnswers.push({
+        question: key,
+        answers: answers[key].map(answer => { 
+          return answer.text
+        })
+      })
+    }
+    
+    const user = {
+      quizAnswers,
+      email
+    }
+    console.log(user)
     let dataToSave = {
-      email,
+      user,
       shop
     }
 
     dispatch(trySavingEmail())
 
-    return fetch(APP_URL + `/api/saveemail`, {
+    return fetch(APP_URL + `/api/saveuser`, {
         method: 'PUT',
         body: JSON.stringify(dataToSave),
         headers: {
@@ -283,9 +298,9 @@ export function saveEmail(email) {
 
 export function saveAnswer(answer, question) {
   return (dispatch, getState) => {
-    let {
-      answers
-    } = Object.assign({}, getState());
+    let { answers } = Object.assign({}, getState());
+
+    answer.question = question._id
 
     if (question.answerNumber == 1) {
       //Unique answer
@@ -329,8 +344,6 @@ export function calculateAnswer() {
     allAnswers = [].concat.apply([], allAnswers)
 
     //Group positivie and negative answers
-    console.log(answers)
-    console.log(allAnswers)
     
     allAnswers.map((answer) => {
         positive = positive.concat(answer.positive)

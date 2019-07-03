@@ -1,6 +1,6 @@
 import {Router} from '../routes'
 import QuizContainer from '../components/QuizContainer'
-import { saveEmail, calculateAnswer} from '../store'
+import { saveUser, calculateAnswer} from '../store'
 import { connect } from 'react-redux'
 
 class Share extends React.Component{
@@ -56,7 +56,7 @@ class Share extends React.Component{
             </div>
 
             <footer>
-                <a className="greyed" onClick={() => Router.pushRoute('results').then(() => window.scrollTo(0, 0))}>No thanks, take me to my results</a>
+                <a className="greyed" onClick={() => this.toResults()}>No thanks, take me to my results</a>
             </footer>
         </QuizContainer>
     }
@@ -64,6 +64,11 @@ class Share extends React.Component{
     validateEmail(email) {
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(String(email).toLowerCase());
+    }
+
+    toResults() { 
+        this.props.saveUser()
+        Router.pushRoute('results').then(() => window.scrollTo(0, 0))
     }
 
     sendEmail(){
@@ -78,7 +83,7 @@ class Share extends React.Component{
                 //this.props.checkEmail(email)
                 
                 //Send email to contact
-                this.props.saveEmail(email)
+                this.props.saveUser(email)
 
             } else {
                 this.setState({
@@ -103,7 +108,7 @@ const mapStateToProps = (state) => {
         redirect: state.redirect
     }
   }
-  const mapDispatchToProps = { saveEmail, calculateAnswer }
+  const mapDispatchToProps = { saveUser, calculateAnswer }
 
   const connectedShare = connect(mapStateToProps, mapDispatchToProps)(Share)
   
