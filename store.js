@@ -305,7 +305,7 @@ export function saveAnswer(answer, question) {
     if (question.answerNumber == 1) {
       //Unique answer
       answers[question._id] = [answer]
-    } else { 
+    } else {
       if (answers[question._id]) {
         const indexOf = answers[question._id].indexOf(answer)
 
@@ -316,7 +316,7 @@ export function saveAnswer(answer, question) {
           //If the answer is new
           answers[question._id].push(answer)
         }
-      } else { 
+      } else {
         //If this is a first answer
         answers[question._id] = [answer]
       }
@@ -341,9 +341,13 @@ export function calculateAnswer() {
     for (var key in  answers) { 
       allAnswers.push(answers[key])
     }
+    allAnswers.map(answers => { 
+      return answers.length > 1 ? answers.push(answers[0]): answers 
+    })
+
     allAnswers = [].concat.apply([], allAnswers)
 
-    //Group positivie and negative answers
+    //Group positive and negative answers
     
     allAnswers.map((answer) => {
         positive = positive.concat(answer.positive)

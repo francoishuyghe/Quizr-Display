@@ -29,10 +29,14 @@ class Question extends React.Component{
             ? number + 1
             : 0
         
+        const question = this.props.settings.questions[number - 1]
+        const enableNext = this.props.answers[question._id] ? true : false
+        
         this.setState({
             number,
             nextQuestion,
-            question: this.props.settings.questions[number - 1]
+            question,
+            enableNext
         })
     }
     
@@ -44,10 +48,14 @@ class Question extends React.Component{
                 ? number + 1
                 : 0
             
+            const question = nextProps.settings.questions[number - 1]
+            const enableNext = this.props.answers[question._id] ? true : false
+            
             this.setState({
                 number,
                 nextQuestion,
-                question: nextProps.settings.questions[number - 1]
+                question,
+                enableNext
             })
         }
     }
