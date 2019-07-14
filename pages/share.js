@@ -1,17 +1,13 @@
 import {Router} from '../routes'
 import QuizContainer from '../components/QuizContainer'
+import ShareForm from '../components/ShareForm'
+import ShareFormTradeshow from '../components/ShareFormTradeshow'
 import { saveUser, calculateAnswer} from '../store'
 import { connect } from 'react-redux'
 
 class Share extends React.Component{
     constructor( props ) {
         super( props );
-
-        this.state = {
-            email: '',
-            error: ''
-        }
-
         this.sendEmail = this.sendEmail.bind(this)
     }
 
@@ -27,7 +23,7 @@ class Share extends React.Component{
     }
 
     render() {
-        const { settings, coupons, isSaving, savingError } = this.props
+        const { settings, tradeshow } = this.props
 
         return <QuizContainer name="share">
             <header>
@@ -35,24 +31,10 @@ class Share extends React.Component{
             </header>
 
             <div className="content">
-                <p>{ settings.shareParagraph }</p>
-                <form>
-                <input 
-                    type="email" 
-                    name="email" 
-                    placeholder="Your email address"
-                    onChange={(e) => this.setState({email: e.target.value})}
-                    value={this.state.email}
-                /><br/>
-                { this.state.error && 
-                        <div className="alert">{this.state.error}</div>}
-                { savingError && 
-                        <div className="alert">{savingError}</div>}
-                    {isSaving
-                        ? <a className="btn">Saving...</a>
-                        : <a onClick={this.sendEmail} className="btn">Send my Results{coupons._id && !coupons.discountPaused && coupons.discountCodes.length > 0 && " + Discount code"}</a>
-                    }
-                </form>
+                <p>{settings.shareParagraph}</p>
+                {tradeshow
+                    ? <ShareFormTradeshow {...this.props} sendEmail={this.sendEmail} />
+                    : <ShareForm {...this.props} sendEmail={this.sendEmail}/>}
             </div>
 
             <footer>
@@ -71,19 +53,13 @@ class Share extends React.Component{
         Router.pushRoute('results').then(() => window.scrollTo(0, 0))
     }
 
-    sendEmail(){
-        const {email} = this.state
+    sendEmail(data) {
+        const {email} = data
         //Verify email
         if (email) {
             if (this.validateEmail(email)){
-                // Send contact to Zoho
-                //TODO
-
-                //Check if email has already been used
-                //this.props.checkEmail(email)
-                
                 //Send email to contact
-                this.props.saveUser(email)
+                this.props.saveUser(data)
 
             } else {
                 this.setState({
@@ -105,7 +81,8 @@ const mapStateToProps = (state) => {
         coupons: state.coupons,
         isSaving: state.isSaving,
         savingError: state.savingError,
-        redirect: state.redirect
+        redirect: state.redirect,
+        tradeshow: state.tradeshow
     }
   }
   const mapDispatchToProps = { saveUser, calculateAnswer }

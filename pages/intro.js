@@ -9,7 +9,7 @@ class Intro extends React.Component{
         return {query}
       }
     
-      componentWillMount(){
+  componentWillMount() {
         this.props.getSettings(this.props.query.shop)
       }
 

@@ -5,13 +5,13 @@ import {Router} from '../routes'
 
 class Index extends React.Component{
 
-    static async getInitialProps ({query}) {
-        return {query}
-      }
+  static async getInitialProps ({query}) {
+    return {query}
+  }
     
-      componentWillMount(){
-        this.props.getSettings(this.props.query)
-      }
+  componentWillMount() {
+    this.props.getSettings(this.props.query)
+  }
 
     render() {
 
@@ -20,7 +20,7 @@ class Index extends React.Component{
         return this.props.isLoaded ? 
         <QuizContainer name="index">
             <h1>{ settings.title }</h1>
-            <p>{ settings.intro }</p>
+            <p>{settings.intro}</p>
             <a onClick={() => Router.pushRoute('intro').then(() => window.scrollTo(0, 0))} className="btn">Start</a>
         </QuizContainer>
         : 'Loading'
@@ -31,7 +31,8 @@ class Index extends React.Component{
 const mapStateToProps = (state) => {
   return {
     isLoaded: state.isLoaded,
-    settings: state.settings
+    settings: state.settings,
+    tradeshow: state.tradeshow
   }
 }
 

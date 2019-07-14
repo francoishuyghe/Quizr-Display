@@ -54,6 +54,15 @@ const statsSchema = new Schema({
   }],
   users: [{
     email: String,
+    firstName: String,
+    lastName: String,
+    company: String,
+    phone: String,
+    address1: String,
+    address2: String,
+    city: String,
+    state: String,
+    zipcode: String,
     quizAnswers: [
       {
         question: String,

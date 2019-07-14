@@ -16,6 +16,7 @@ const initialState = {
   isFetching: false,
   isLoaded: false,
   shop: '',
+  tradeshow: false,
   settings: {
     domain: '',
     collectEmailChecked: true,
@@ -43,7 +44,8 @@ export const actionTypes = {
   SAVE_EMAIL: 'SAVE_EMAIL',
   TRY_SAVING_EMAIL: 'TRY_SAVING_EMAIL',
   ERROR_SAVING_EMAIL: 'ERROR_SAVING_EMAIL',
-  CALCULATE_ANSWER: 'CALCULATE_ANSWER'
+  CALCULATE_ANSWER: 'CALCULATE_ANSWER',
+  RESET_QUIZ: 'RESET_QUIZ'
 }
 
 // REDUCERS
@@ -53,6 +55,7 @@ export const reducer = (state = initialState, action) => {
 
     case actionTypes.GET_SETTINGS:
       newState.shop = action.data.shop + ".myshopify.com"
+      newState.tradeshow = action.data.tradeshow
       return newState
 
     case actionTypes.REQUEST_SETTINGS:
@@ -88,7 +91,13 @@ export const reducer = (state = initialState, action) => {
     
     case actionTypes.CALCULATE_ANSWER:
       newState.topAnswers = action.topAnswers
-      return newState  
+      return newState
+    
+    case actionTypes.RESET_QUIZ:
+      newState.answers = []
+      
+      return newState
+      
 
     default:
       return state
@@ -239,7 +248,7 @@ export const trySavingEmail = () => {
   }
 }
 
-export function saveUser(email) {
+export function saveUser(data) {
   return (dispatch, getState) => {
 
     let { shop, answers } = getState();
@@ -255,9 +264,9 @@ export function saveUser(email) {
     
     const user = {
       quizAnswers,
-      email
+      ...data
     }
-    console.log(user)
+
     let dataToSave = {
       user,
       shop
@@ -285,7 +294,7 @@ export function saveUser(email) {
             isSaving: false
           })
         } else { 
-          dispatch(sendEmail(email))
+          dispatch(sendEmail(data.email))
           dispatch({type: actionTypes.SAVE_EMAIL})
         }
       })
@@ -389,6 +398,13 @@ export function calculateAnswer() {
       topAnswers
     })
   }
+}
+
+
+export function resetQuiz() {
+  return {
+      type: actionTypes.RESET_QUIZ,
+    }
 }
 
 

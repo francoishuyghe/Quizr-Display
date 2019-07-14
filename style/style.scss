@@ -63,6 +63,7 @@ body{
         padding: 1px;
         width: 100%;
         max-width: 800px;
+        margin: 50px;
     }
 
     .wrap{
@@ -194,6 +195,8 @@ body{
         }
 
         form{
+            margin: 50px 0;
+
             input{
                 border-radius: 5px;
                 width: 400px;
@@ -201,8 +204,18 @@ body{
                 padding: 10px 20px;
                 font-size: 16px;
                 border: 1px solid $grey;
-                margin-bottom: 20px;
+                display: block;
+                margin: 0 auto 20px;
                 box-sizing: border-box;
+
+                &.half{
+                    width: 190px;
+                    display: inline-block;
+
+                    &:nth-of-type(2n + 1){
+                        margin-right: 20px;
+                    }
+                }
             }
         }
 
@@ -308,6 +321,13 @@ body{
             color: $black;
         }
     }
+
+    //Reset Block
+    .resetQuiz{
+        position: fixed;
+        top: 20px;
+        right: 20px;
+    }
 }
 
 //Product Block
@@ -391,8 +411,6 @@ body{
         &.share{
             form{
                 width: 100%;
-
-
             }
         }
 
