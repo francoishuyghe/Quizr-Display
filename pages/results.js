@@ -9,14 +9,18 @@ class Results extends React.Component{
 
         const { settings, topAnswers } = this.props
 
+        const resultsTitle  = this.props.tradeshow ? settings.resultsTitleTradeshow || settings.resultsTitle : settings.resultsTitle
+        const resultsParagraph  = this.props.tradeshow ? settings.resultsParagraphTradeshow || settings.resultsParagraph : settings.resultsParagraph
+        const resultsTextAfter  = this.props.tradeshow ? settings.resultsTextAfterTradeshow || settings.resultsTextAfter : settings.resultsTextAfter
+
         const defaultOption = settings.resultOptions.find((option) => {
             return option.defaultOption == true
         })
 
         return <QuizContainer name="results">
             <header>
-                <h1>{settings.resultsTitle}</h1>
-                <div className="description" dangerouslySetInnerHTML={{ __html: settings.resultsParagraph }} />
+                <h1>{resultsTitle}</h1>
+                <div className="description" dangerouslySetInnerHTML={{ __html: resultsParagraph }} />
             </header>
 
             <div className="content">
@@ -25,7 +29,7 @@ class Results extends React.Component{
             </div>
 
             <footer>
-                <p>{ settings.resultsTextAfter }</p>
+                <p>{ resultsTextAfter }</p>
             </footer>
         </QuizContainer>
     }

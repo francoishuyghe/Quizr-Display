@@ -31,7 +31,7 @@ class Share extends React.Component{
             </header>
 
             <div className="content">
-                <p>{settings.shareParagraph}</p>
+                <p>{this.props.tradeshow ? settings.shareParagraphTradeshow || settings.shareParagraph : settings.shareParagraph}</p>
                 {tradeshow
                     ? <ShareFormTradeshow {...this.props} sendEmail={this.sendEmail} />
                     : <ShareForm {...this.props} sendEmail={this.sendEmail}/>}

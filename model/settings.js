@@ -38,7 +38,15 @@ const settingsSchema = new Schema({
   resultEmailName: {type: String},
   resultEmailTitle: {type: String},
   title: {type: String},
-  intro: {type: String}
+  intro: { type: String },
+  // Tradeshow settings
+  introTitleTradeshow: String,
+  introParagraphTradeshow: String,
+  shareParagraphTradeshow: String,
+  resultEmailTitleTradeshow: String,
+  resultsTitleTradeshow: String,
+  resultsParagraphTradeshow: String,
+  resultsTextAfterTradeshow: String
 });
 
 // Collected info

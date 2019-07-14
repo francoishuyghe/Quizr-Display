@@ -19,8 +19,8 @@ class Intro extends React.Component{
 
         return this.props.isLoaded ? 
         <QuizContainer name="intro">
-            <h1>{ settings.introTitle }</h1>
-            <p>{ settings.introParagraph }</p>
+            <h1>{ this.props.tradeshow ? settings.introTitleTradeshow || settings.introTitle : settings.introTitle }</h1>
+            <p>{ this.props.tradeshow ? settings.introParagraphTradeshow || settings.introParagraph : settings.introParagraph }</p>
             <a onClick={() => Router.pushRoute('question', {number: 1}).then(() => window.scrollTo(0, 0))} className="btn">Next</a>
         </QuizContainer>
         : 'Loading'
@@ -31,7 +31,8 @@ class Intro extends React.Component{
 const mapStateToProps = (state) => {
   return {
     isLoaded: state.isLoaded,
-    settings: state.settings
+    settings: state.settings,
+    tradeshow: state.tradeshow
   }
 }
 

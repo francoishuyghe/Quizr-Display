@@ -294,8 +294,10 @@ export function saveUser(data) {
             isSaving: false
           })
         } else { 
-          dispatch(sendEmail(data.email))
-          dispatch({type: actionTypes.SAVE_EMAIL})
+          if (data && data.email) {
+            dispatch(sendEmail(data.email))
+            dispatch({ type: actionTypes.SAVE_EMAIL })
+          }
         }
       })
   }
