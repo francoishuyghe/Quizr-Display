@@ -192,6 +192,8 @@ body{
     }
 
     &.share{
+        position: relative;
+        
         footer{
             display: block;
         }
@@ -230,16 +232,6 @@ body{
         .alert{
             color: red;
             margin: -10px 0 10px;
-        }
-    }
-
-    &.shared {
-        .wrap{
-            display: block;
-        }
-
-        .content {
-            padding: 50px;
         }
     }
 
