@@ -7,11 +7,11 @@ class Results extends React.Component{
 
     render() {
 
-        const { settings, topAnswers } = this.props
+        const { settings, topAnswers, tradeshow } = this.props
 
-        const resultsTitle  = this.props.tradeshow ? settings.resultsTitleTradeshow || settings.resultsTitle : settings.resultsTitle
-        const resultsParagraph  = this.props.tradeshow ? settings.resultsParagraphTradeshow || settings.resultsParagraph : settings.resultsParagraph
-        const resultsTextAfter  = this.props.tradeshow ? settings.resultsTextAfterTradeshow || settings.resultsTextAfter : settings.resultsTextAfter
+        const resultsTitle  = tradeshow ? settings.resultsTitleTradeshow || settings.resultsTitle : settings.resultsTitle
+        const resultsParagraph  = tradeshow ? settings.resultsParagraphTradeshow || settings.resultsParagraph : settings.resultsParagraph
+        const resultsTextAfter  = tradeshow ? settings.resultsTextAfterTradeshow || settings.resultsTextAfter : settings.resultsTextAfter
 
         const defaultOption = settings.resultOptions.find((option) => {
             return option.defaultOption == true
@@ -39,7 +39,8 @@ class Results extends React.Component{
 const mapStateToProps = (state) => {
     return {
         settings: state.settings,
-      topAnswers: state.topAnswers
+        topAnswers: state.topAnswers,
+        tradeshow: state.tradeshow
     }
   }
   const mapDispatchToProps = { saveAnswer }

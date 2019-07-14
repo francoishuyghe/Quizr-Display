@@ -63,7 +63,7 @@ class SettingsControllers {
     async sendEmail(req, res, next) {
         try {
             const data = req.body || {};
-            const { topAnswers, settings } = data.state
+            const { topAnswers, settings, tradeshow } = data.state
             const {couponToSend} = data
 
             const product1 = topAnswers[0] ? topAnswers[0].product : {}
@@ -72,10 +72,14 @@ class SettingsControllers {
             const url1 = settings.domain + '/products/' + product1.handle
             const url2 = settings.domain + '/products/' + product2.handle
 
+            const resultEmailTitle = tradeshow ? settings.resultEmailTitleTradeshow || settings.resultEmailTitle : settings.resultEmailTitle
+            const resultsTitle = tradeshow ? settings.resultsTitleTradeshow || settings.resultsTitle : settings.resultsTitle
+            const resultsParagraph = tradeshow ? settings.resultsParagraphTradeshow || settings.resultsParagraph : settings.resultsParagraph
+
             var productSection = emailTop.toString()
             productSection = productSection
-                .replace("RESULT_TITLE", settings.resultsTitle)
-                .replace("RESULT_PARAGRAPH", settings.resultsParagraph)
+                .replace("RESULT_TITLE", resultsTitle)
+                .replace("RESULT_PARAGRAPH", resultsParagraph)
                 .replace("PRODUCT1_IMG", product1.image)
                 .replace("PRODUCT1_TITLE", product1.title)
                 .replace("PRODUCT1_CAT", product1.productType)
@@ -102,7 +106,7 @@ class SettingsControllers {
                     email: settings.resultEmail,
                     name: settings.resultEmailName
                 },
-                subject: settings.resultEmailTitle,
+                subject: resultEmailTitle,
                 html: body
             };
             sgMail.send(msg);
