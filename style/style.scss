@@ -48,6 +48,7 @@ body{
     width: 100%;
     min-height: 100%;
     display: flex;
+    flex-flow: column;
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -58,12 +59,19 @@ body{
     background-color: $black;
     background-repeat: no-repeat;
 
+    &:before,
+        &:after{
+            content:'';
+            height: 50px;
+            display: block;
+            background: transparent;
+        }
+
     .gradient{
         background: linear-gradient(to right, red, purple);
         padding: 1px;
         width: 100%;
         max-width: 800px;
-        margin: 50px;
     }
 
     .wrap{
