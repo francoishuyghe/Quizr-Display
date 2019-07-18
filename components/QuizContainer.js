@@ -14,7 +14,7 @@ class QuizContainer extends React.Component {
           <script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.1.1/iframeResizer.contentWindow.min.js" type="text/javascript"></script>
         </Head>
 
-        <ResetQuiz />
+        {this.props.name != 'index' && <ResetQuiz />}
         
         <div className="gradient">  
           <div className="wrap">

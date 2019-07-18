@@ -166,7 +166,6 @@ class SettingsControllers {
     async updateCoupons(req, res, next) {
         try {
             const data = req.body;
-            console.log('In API route', data)
 
             Coupons.updateOne({
                 shop: data.shop
@@ -174,7 +173,7 @@ class SettingsControllers {
                 data.updatedCoupons,
                 function (err) {
                     console.log(err)
-                    res.send(data.email)
+                    res.send(data.updatedCoupons)
                 });
         } catch (err) {
             next(err)

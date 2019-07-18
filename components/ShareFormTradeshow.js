@@ -10,8 +10,7 @@ class ShareForm extends React.Component {
                 lastName: '',
                 email: '',
                 company: ''
-            },
-            error: ''
+            }
         }
 
         this.updateState = this.updateState.bind(this)
@@ -19,17 +18,17 @@ class ShareForm extends React.Component {
 
   
     render() {
-        const { coupons, isSaving, savingError } = this.props
+        const { coupons, isSaving, error } = this.props
         const { firstName, lastName, email, company, phone, address1, address2, city, state, zipcode } = this.state.data
   
         return <form>
             <input 
-                type="text" 
-                name="firstName" 
+                type="text"
+                name="firstName"
                 placeholder="First Name"
                 onChange={this.updateState}
                 value={firstName}
-                className="half"
+                className={error.firstName ? 'error half' : 'half'}
             />
 
             <input 
@@ -38,7 +37,7 @@ class ShareForm extends React.Component {
                 placeholder="Last Name"
                 onChange={this.updateState}
                 value={lastName}
-                className="half"
+                className={error.lastName ? 'error half' : 'half'}
             />
 
             <input 
@@ -47,6 +46,7 @@ class ShareForm extends React.Component {
                 placeholder="Company"
                 onChange={this.updateState}
                 value={company}
+                className={error.company ? 'error' : ''}
             />
             
             <input 
@@ -55,6 +55,7 @@ class ShareForm extends React.Component {
                 placeholder="Email address"
                 onChange={this.updateState}
                 value={email}
+                className={error.email ? 'error' : ''}
             />
 
             <input 
@@ -63,6 +64,7 @@ class ShareForm extends React.Component {
                 placeholder="Phone Number"
                 onChange={this.updateState}
                 value={phone}
+                className={error.phone ? 'error' : ''}
             />
 
             <input 
@@ -109,10 +111,8 @@ class ShareForm extends React.Component {
 
             <br/>
 
-        { this.state.error && 
-                <div className="alert">{this.state.error}</div>}
-        { savingError && 
-                <div className="alert">{savingError}</div>}
+        { error.general && 
+                <div className="alert">{ error.general }</div>}
             {isSaving
                 ? <a className="btn">Saving...</a>
                 : <a onClick={() => this.props.sendEmail(this.state.data)} className="btn">Send my Results{coupons._id && !coupons.discountPaused && coupons.discountCodes.length > 0 && " + Discount code"}</a>

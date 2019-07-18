@@ -45,7 +45,8 @@ export const actionTypes = {
   TRY_SAVING_EMAIL: 'TRY_SAVING_EMAIL',
   ERROR_SAVING_EMAIL: 'ERROR_SAVING_EMAIL',
   CALCULATE_ANSWER: 'CALCULATE_ANSWER',
-  RESET_QUIZ: 'RESET_QUIZ'
+  RESET_QUIZ: 'RESET_QUIZ',
+  UPDATE_COUPONS: 'UPDATE_COUPONS'
 }
 
 // REDUCERS
@@ -188,8 +189,8 @@ export function sendEmail(email) {
         error => console.log('An error occurred.', error)
       )
       .then(json => dispatch({
-        type: actionTypes.SEND_EMAIL
-      }))
+          type: actionTypes.SEND_EMAIL
+        }))
   }
 }
 

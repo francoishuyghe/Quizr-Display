@@ -193,7 +193,7 @@ body{
 
     &.share{
         position: relative;
-        
+
         footer{
             display: block;
         }
@@ -217,6 +217,10 @@ body{
                 display: block;
                 margin: 0 auto 20px;
                 box-sizing: border-box;
+
+                &.error{
+                    border-color: red;
+                }
 
                 &.half{
                     width: 190px;
@@ -327,6 +331,14 @@ body{
         position: fixed;
         top: 20px;
         right: 20px;
+        background: black;
+        color: white;
+        padding: 10px 20px;
+        text-transform: uppercase;
+
+        &:hover{
+            color: #aaa;
+        }
     }
 }
 

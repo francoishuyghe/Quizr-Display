@@ -17,10 +17,13 @@ class Index extends React.Component{
 
       const settings = this.props.settings ? this.props.settings : {}
 
+      const intro = this.props.tradeshow ? settings.introTradeshow || settings.intro : settings.intro
+      const title = this.props.tradeshow ? settings.titleTradeshow || settings.title : settings.title
+
         return this.props.isLoaded ? 
         <QuizContainer name="index">
-            <h1>{ settings.title }</h1>
-            <p>{settings.intro}</p>
+            <h1>{ title }</h1>
+            <p>{intro}</p>
             <a onClick={() => Router.pushRoute('intro').then(() => window.scrollTo(0, 0))} className="btn">Start</a>
         </QuizContainer>
         : 'Loading'

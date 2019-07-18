@@ -15,7 +15,7 @@ class ShareForm extends React.Component {
 
   
     render() {
-        const { coupons, isSaving, savingError } = this.props
+        const { coupons, isSaving, savingError, error } = this.props
         const { email } = this.state.data
   
       return <form>
@@ -24,12 +24,11 @@ class ShareForm extends React.Component {
             name="email" 
             placeholder="Your email address"
             onChange={this.updateState}
-            value={email}
-        /><br/>
-        { this.state.error && 
-                <div className="alert">{this.state.error}</div>}
-        { savingError && 
-                <div className="alert">{savingError}</div>}
+              value={email}
+              className={error.email ? 'error' : ''}
+        />
+        { error.general && 
+                <div className="alert">{error.general}</div>}
             {isSaving
                 ? <a className="btn">Saving...</a>
                 : <a onClick={() => this.props.sendEmail(this.state.data)} className="btn">Send my Results{coupons._id && !coupons.discountPaused && coupons.discountCodes.length > 0 && " + Discount code"}</a>
