@@ -162,7 +162,9 @@ export function sendEmail(email) {
 
     let coupons = state.coupons
     let couponToSend = {}
-    if (coupons._id && !coupons.discountPaused && coupons.discountCodes.length > 0) { 
+    const discountPaused = state.tradeshow ? coupons.discountPausedTradeshow : coupons.discountPaused
+
+    if (coupons._id && !discountPaused && coupons.discountCodes.length > 0) { 
       couponToSend = {
         discountCode: coupons.discountCodes[0],
         discountText: coupons.discountType == 'dollars' ? '$' + coupons.discountAmount : coupons.discountAmount + '%'
