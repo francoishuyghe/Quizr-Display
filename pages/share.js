@@ -30,7 +30,7 @@ class Share extends React.Component{
     render() {
         const { settings, tradeshow } = this.props
 
-        return <QuizContainer name="share">
+        return <QuizContainer name="share" tradeshow={tradeshow}>
             <header>
                 <h1>Almost there!</h1>
             </header>

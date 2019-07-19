@@ -192,7 +192,9 @@ body{
     }
 
     &.share{
-        position: relative;
+        &.tradeshow{
+            position: relative;
+        }
 
         footer{
             display: block;

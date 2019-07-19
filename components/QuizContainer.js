@@ -6,8 +6,10 @@ class QuizContainer extends React.Component {
 
   render() {
 
+    const tradeshowClass = this.props.tradeshow ? ' tradeshow' : ''
+
     return (
-      <div className={"quizContainer " + this.props.name}>
+      <div className={"quizContainer " + this.props.name + tradeshowClass}>
         <Head>
           <title>Quizr</title>
           <meta name="viewport" content="initial-scale=1.0, width=device-width" />
