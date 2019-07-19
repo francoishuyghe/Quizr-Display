@@ -3,6 +3,9 @@ const next = require('next')
 const SettingsControllers = require('./controller/settings');
 const bodyParser = require('body-parser');
 
+//Polyfill to fix the IE bug with Object Assign
+require('babel-polyfill')
+
 //ENV variables
 const dotenv = require('dotenv');
 dotenv.config();

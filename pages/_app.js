@@ -3,8 +3,6 @@ import App, { Container } from 'next/app';
 //Redux
 import { Provider } from 'react-redux'
 import withReduxStore from '../lib/with-redux-store'
-//Polyfill to fix the IE bug with Object Assign
-import 'babel-polyfill'
 
 //Google Analytics
 import ReactGA from 'react-ga';
