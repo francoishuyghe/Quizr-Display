@@ -54,7 +54,7 @@ export const actionTypes = {
 
 // REDUCERS
 export const reducer = (state = initialState, action) => {
-  let newState = Object.assign({}, state);
+  let newState = {...state};
   switch (action.type) {
 
     case actionTypes.GET_SETTINGS:
@@ -90,9 +90,7 @@ export const reducer = (state = initialState, action) => {
       return newState
 
     case actionTypes.SAVE_ANSWER:
-      return Object.assign({}, state, {
-        answers: action.answers
-      });
+      return {...state, answers: action.answers};
     
     case actionTypes.CALCULATE_ANSWER:
       newState.topAnswers = action.topAnswers
@@ -138,7 +136,7 @@ export const receiveSettings = (shop, settings, coupons) => {
 export function getSettings(data) {
   return function (dispatch, getState) {
 
-    const state = Object.assign({}, getState());
+    const state = {...getState()};
     if (state.isLoaded) return
 
     dispatch(requestSettings(data))
@@ -168,7 +166,7 @@ export function getSettings(data) {
 export function sendEmail(email) {
   return (dispatch, getState) => {
 
-    const state = Object.assign({}, getState());
+    const state = {...getState()};
 
     let coupons = state.coupons
     let couponToSend = {}
@@ -213,7 +211,7 @@ export function sendEmail(email) {
 export function saveNotes(notes) {
   return (dispatch, getState) => {
 
-    const {shop, user} = Object.assign({}, getState());
+    const {shop, user} = {...getState()};
 
     let dataToSave = {
       shop,
@@ -356,7 +354,7 @@ export function saveUser(data) {
 
 export function saveAnswer(answer, question) {
   return (dispatch, getState) => {
-    let { answers } = Object.assign({}, getState());
+    let { answers } = {...getState()};
 
     answer.question = question._id
 
@@ -389,7 +387,7 @@ export function saveAnswer(answer, question) {
 
 export function calculateAnswer() {
   return (dispatch, getState) => {
-    let { answers, settings } = Object.assign({}, getState());
+    let { answers, settings } = {...getState()};
     
     let positive = []
     let negative = []
