@@ -1,5 +1,6 @@
 import QuizContainer from '../components/QuizContainer'
 import ProductDisplay from '../components/productDisplay'
+import ResultsNotes from '../components/ResultsNotes'
 import { saveAnswer } from '../store'
 import { connect } from 'react-redux'
 
@@ -29,7 +30,8 @@ class Results extends React.Component{
             </div>
 
             <footer>
-                <p>{ resultsTextAfter }</p>
+                <p>{resultsTextAfter}</p>
+                {tradeshow && <ResultsNotes />}
             </footer>
         </QuizContainer>
     }

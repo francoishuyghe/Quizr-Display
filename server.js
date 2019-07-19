@@ -43,6 +43,7 @@ app
     server.get('/api/settings/:shop', SettingsControllers.find);
     server.post('/api/sendemail', SettingsControllers.sendEmail)
     server.put('/api/saveuser', SettingsControllers.saveUser)
+    server.put('/api/savenotes', SettingsControllers.saveNotes)
     server.put('/api/updatecoupons', SettingsControllers.updateCoupons)
 
     server.use(async (req, res) => {

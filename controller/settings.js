@@ -191,6 +191,32 @@ class SettingsControllers {
         }
     }
     
+    
+    //PUT Save Notes
+    async saveNotes(req, res, next) {
+        try {
+            const data = req.body;
+            console.log('InsaveNotes', data)
+
+            Stats.updateOne({
+                "shop": data.shop,
+                "users.email": data.user.email
+            }, {
+                $set: {
+                    "users.$.notes": data.notes
+                }
+            }, function (err, data) {
+                    console.log('saved notes', err, data)
+                    res.send({
+                        err,
+                        data
+                    })
+            });
+        } catch (err) {
+            next(err)
+        }
+    }
+    
     //PUT Update Coupons
     async updateCoupons(req, res, next) {
         try {

@@ -32,7 +32,8 @@ const initialState = {
   answers: [],
   isSaving: false,
   savingError: '',
-  redirect: false
+  redirect: false,
+  user: {}
 }
 
 export const actionTypes = {
@@ -42,11 +43,13 @@ export const actionTypes = {
   SAVE_ANSWER: 'SAVE_ANSWER',
   SEND_EMAIL: 'SEND_EMAIL',
   SAVE_EMAIL: 'SAVE_EMAIL',
-  TRY_SAVING_EMAIL: 'TRY_SAVING_EMAIL',
+  TRY_SAVING_USER: 'TRY_SAVING_USER',
   ERROR_SAVING_EMAIL: 'ERROR_SAVING_EMAIL',
   CALCULATE_ANSWER: 'CALCULATE_ANSWER',
   RESET_QUIZ: 'RESET_QUIZ',
-  UPDATE_COUPONS: 'UPDATE_COUPONS'
+  UPDATE_COUPONS: 'UPDATE_COUPONS',
+  TRY_SAVING_NOTES: 'TRY_SAVING_NOTES',
+  SUCCESS_SAVING_NOTES: 'SUCCESS_SAVING_NOTES'
 }
 
 // REDUCERS
@@ -70,8 +73,9 @@ export const reducer = (state = initialState, action) => {
       newState.coupons = action.coupons
       return newState
     
-    case actionTypes.TRY_SAVING_EMAIL:
+    case actionTypes.TRY_SAVING_USER:
       newState.isSaving = true
+      newState.user = action.data
       return newState
     
     case actionTypes.ERROR_SAVING_EMAIL:
@@ -96,10 +100,16 @@ export const reducer = (state = initialState, action) => {
     
     case actionTypes.RESET_QUIZ:
       newState.answers = []
-      
       return newState
-      
-
+    
+    case actionTypes.TRY_SAVING_NOTES:
+      newState.isSaving = true
+      return newState
+    
+    case actionTypes.SUCCESS_SAVING_NOTES:
+      newState.isSaving = false
+      return newState
+    
     default:
       return state
   }
@@ -196,6 +206,39 @@ export function sendEmail(email) {
   }
 }
 
+//#################
+// SAVE NOTES
+//#################
+
+export function saveNotes(notes) {
+  return (dispatch, getState) => {
+
+    const {shop, user} = Object.assign({}, getState());
+
+    let dataToSave = {
+      shop,
+      notes,
+      user
+    }
+
+    dispatch({ type: actionTypes.TRY_SAVING_NOTES })
+
+    return fetch(APP_URL + `/api/savenotes`, {
+        method: 'PUT',
+        body: JSON.stringify(dataToSave),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(
+        response => response.json(),
+        // Do not use catch
+        error => console.log('An error occurred.', error)
+      )
+      .then(json => dispatch({type: actionTypes.SUCCESS_SAVING_NOTES}))
+  }
+}
+
 // export function checkEmail(email) {
 //   return (dispatch, getState) => {
 
@@ -245,9 +288,10 @@ export function updateCoupons(coupons, shop) {
   }
 }
 
-export const trySavingEmail = () => {
+export const trySavingUser = (data) => {
   return {
-    type: actionTypes.TRY_SAVING_EMAIL
+    type: actionTypes.TRY_SAVING_USER,
+    data
   }
 }
 
@@ -275,7 +319,7 @@ export function saveUser(data) {
       shop
     }
 
-    dispatch(trySavingEmail())
+    dispatch(trySavingUser(data))
 
     return fetch(APP_URL + `/api/saveuser`, {
         method: 'PUT',
