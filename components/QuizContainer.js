@@ -14,7 +14,6 @@ class QuizContainer extends React.Component {
           <title>Quizr</title>
           <meta name="viewport" content="initial-scale=1.0, width=device-width" />
           <script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.1.1/iframeResizer.contentWindow.min.js" type="text/javascript"></script>
-          <script src="https://cdn.polyfill.io/v2/polyfill.min.js" />
         </Head>
 
         {this.props.name != 'index' && <ResetQuiz />}
