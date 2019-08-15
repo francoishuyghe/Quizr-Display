@@ -20,7 +20,8 @@ module.exports = withSass({
 
     const env = { 
       APP_URL: JSON.stringify(process.env.APP_URL),
-      SENDGRID_API_KEY: JSON.stringify(process.env.SENDGRID_API_KEY)
+      SENDGRID_API_KEY: JSON.stringify(process.env.SENDGRID_API_KEY),
+      KLAVIYO_API_KEY: JSON.stringify(process.env.KLAVIYO_API_KEY)
     };
     config.plugins.push(new webpack.DefinePlugin(env));
 

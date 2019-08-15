@@ -166,29 +166,55 @@ export function getSettings(data) {
 export function sendEmail(email) {
   return (dispatch, getState) => {
 
-    const state = {...getState()};
+    const { topAnswers, settings, tradeshow, user } = {...getState()};
 
-    let coupons = state.coupons
-    let couponToSend = {}
-    const discountPaused = state.tradeshow ? coupons.discountPausedTradeshow : coupons.discountPaused
+    // let dataToSave = {
+    //   email,
+    //   state,
+    //   couponToSend
+    // }
 
-    if (coupons._id && !discountPaused && coupons.discountCodes.length > 0) { 
-      couponToSend = {
-        discountCode: coupons.discountCodes[0],
-        discountText: coupons.discountType == 'dollars' ? '$' + coupons.discountAmount : coupons.discountAmount + '%'
-      }
-      dispatch(updateCoupons(coupons, state.shop))
+    //Define product variables
+    const product1 = topAnswers[0] ? topAnswers[0].product : {}
+    const product2 = topAnswers[1] ? topAnswers[1].product : {}
+
+    const url1 = settings.domain + '/products/' + product1.handle
+    const url2 = settings.domain + '/products/' + product2.handle
+
+    const properties = {
+      product1_productType: product1.productType,
+      product2_productType: product2.productType,
+      product1_image: product1.image,
+      product2_image: product2.secondaryImage,
+      product1_title: product1.title,
+      product2_title: product2.title,
+      url1,
+      url2,
+      ...user
     }
 
-    let dataToSave = {
-      email,
-      state,
-      couponToSend
-    }
+    let dataToSave = JSON.stringify({
+      token: KLAVIYO_API_KEY,
+      event: "Quiz",
+      customer_properties: {
+        $email: email,
+        $first_name : user.firstName,
+        $last_name: user.lastName,
+        $organization: user.company,
+        $phone_number: user.phone,
+        $address1: user.address1,
+        $address2: user.address2,
+        $city: user.city,
+        $region: user.state,
+        $zip: user.zipcode
+      },
+      properties
+    })
 
-    return fetch(APP_URL + `/api/sendemail`, {
-        method: 'POST',
-        body: JSON.stringify(dataToSave),
+    dataToSave = btoa(unescape(encodeURIComponent(dataToSave)));
+
+    return fetch('https://a.klaviyo.com/api/track?data=' + dataToSave, {
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         }
@@ -198,9 +224,13 @@ export function sendEmail(email) {
         // Do not use catch
         error => console.log('An error occurred.', error)
       )
-      .then(json => dispatch({
+      .then(json => {
+        console.log(json)
+        dispatch({
           type: actionTypes.SEND_EMAIL
-        }))
+        })
+      }
+      )
   }
 }
 
@@ -297,6 +327,7 @@ export function saveUser(data) {
   return (dispatch, getState) => {
 
     let { shop, answers } = getState();
+
     const quizAnswers = []
     for (var key in answers) {
       quizAnswers.push({
