@@ -168,12 +168,6 @@ export function sendEmail(email) {
 
     const { topAnswers, settings, tradeshow, user } = {...getState()};
 
-    // let dataToSave = {
-    //   email,
-    //   state,
-    //   couponToSend
-    // }
-
     //Define product variables
     const product1 = topAnswers[0] ? topAnswers[0].product : {}
     const product2 = topAnswers[1] ? topAnswers[1].product : {}
@@ -190,6 +184,9 @@ export function sendEmail(email) {
       product2_title: product2.title,
       url1,
       url2,
+      tradeshow,
+      couponGeneral: settings.couponGeneral,
+      couponTradeshow: settings.couponTradeshow,
       ...user
     }
 
@@ -210,6 +207,8 @@ export function sendEmail(email) {
       },
       properties
     })
+
+    console.log(dataToSave)
 
     dataToSave = btoa(unescape(encodeURIComponent(dataToSave)));
 
