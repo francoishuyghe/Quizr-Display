@@ -179,7 +179,7 @@ export function sendEmail(email) {
       product1_productType: product1.productType,
       product2_productType: product2.productType,
       product1_image: product1.image,
-      product2_image: product2.secondaryImage,
+      product2_image: product2.image, //secondaryImage,
       product1_title: product1.title,
       product2_title: product2.title,
       url1,

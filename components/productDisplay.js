@@ -1,10 +1,10 @@
 class ProductDisplay extends React.Component {
   
     render() {
-      const { product, domain, settings } = this.props
+      const { product, settings } = this.props
 
       const imageURL = this.props.index == 1
-        ? product.secondaryImage
+        ? product.image //secondaryImage
         : product.image
   
       return <div className="productBlock">

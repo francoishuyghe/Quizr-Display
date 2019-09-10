@@ -43,9 +43,9 @@ class Share extends React.Component{
             </div>
 
             <footer>
-                {!this.props.tradeshow &&
+                {/* {!this.props.tradeshow &&
                     <a className="greyed" onClick={() => this.toResults()}>No thanks, take me to my results</a>
-                }
+                } */}
             </footer>
         </QuizContainer>
     }
