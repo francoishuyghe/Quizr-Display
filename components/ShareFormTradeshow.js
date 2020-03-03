@@ -18,7 +18,7 @@ class ShareForm extends React.Component {
 
   
     render() {
-        const { coupons, isSaving, error } = this.props
+        const { coupons, isSaving, error, settings } = this.props
         const { firstName, lastName, email, company, phone, address1, address2, city, state, zipcode } = this.state.data
   
         return <form>
