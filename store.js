@@ -208,16 +208,11 @@ export function sendEmail(email) {
       properties
     })
 
-    console.log(dataToSave)
-
     dataToSave = btoa(unescape(encodeURIComponent(dataToSave)));
 
-    return fetch('https://a.klaviyo.com/api/track?data=' + dataToSave, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
+    const options = { method: 'GET', headers: { Accept: 'text/html' } };
+    
+    return fetch('https://a.klaviyo.com/api/track?data=' + dataToSave, options )
       .then(
         response => response.json(),
         // Do not use catch
